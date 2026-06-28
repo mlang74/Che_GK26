@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lernpfad Kunststoffe – Chemie Q1 Grundkurs</title>
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --paper:#ffffff;
+      --ink:#1d2433;
+      --muted:#667085;
+      --line:#d6dbe6;
+      --accent:#263f7d;
+      --accent2:#eef3ff;
+      --good:#e9f7ef;
+      --warn:#fff7e8;
+      --bad:#fff0f0;
+      --shadow:0 10px 28px rgba(18,28,45,.10);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:linear-gradient(135deg,#f8f9fd 0%,#eef3ff 100%);
+      line-height:1.58;
+    }
+    header{
+      padding:34px 22px 24px;
+      background:linear-gradient(135deg,#172554 0%,#263f7d 55%,#4b6ec5 100%);
+      color:white;
+    }
+    .header-inner{max-width:1180px;margin:0 auto;}
+    .eyebrow{font-size:.92rem;letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin-bottom:8px}
+    h1{margin:.1rem 0 .4rem;font-size:clamp(2rem,4vw,3.6rem);line-height:1.05}
+    .subtitle{max-width:820px;font-size:1.08rem;opacity:.95;margin:0}
+    .layout{display:grid;grid-template-columns:310px 1fr;gap:22px;max-width:1180px;margin:22px auto;padding:0 18px 40px}
+    nav{
+      position:sticky;top:14px;align-self:start;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+      border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;
+    }
+    nav h2{font-size:1rem;margin:4px 8px 12px;color:var(--muted);font-weight:700}
+    .navlink{
+      display:flex;gap:10px;align-items:flex-start;width:100%;border:0;background:transparent;color:var(--ink);
+      text-align:left;border-radius:12px;padding:10px 10px;cursor:pointer;font:inherit;
+    }
+    .navlink:hover{background:#f0f4ff}
+    .navlink.active{background:var(--accent2);color:var(--accent);font-weight:700}
+    .num{flex:0 0 auto;width:1.8rem;height:1.8rem;border-radius:999px;background:#e5e9f7;display:grid;place-items:center;font-size:.85rem;font-weight:800;color:#263f7d}
+    .navlink.active .num{background:var(--accent);color:white}
+    .progress-wrap{margin:14px 8px 6px}
+    .progress-label{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin-bottom:5px}
+    .progress{height:9px;background:#e8ebf3;border-radius:99px;overflow:hidden}
+    .bar{height:100%;width:0;background:var(--accent);transition:width .25s ease}
+    main{min-width:0}
+    .page{
+      display:none;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+      padding:clamp(20px,3vw,36px);animation:fade .18s ease-in;
+    }
+    .page.active{display:block}
+    @keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}
+    h2.page-title{font-size:clamp(1.55rem,2.8vw,2.35rem);line-height:1.18;margin:0 0 8px;color:#172554}
+    h3{color:#263f7d;margin-top:1.4rem}
+    h4{margin-bottom:.3rem;color:#344054}
+    p{margin:.65rem 0}
+    ul,ol{padding-left:1.35rem}
+    li{margin:.35rem 0}
+    .lead{font-size:1.08rem;color:#344054;max-width:850px}
+    .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:.8rem 0 1.1rem}
+    .pill{display:inline-flex;align-items:center;border:1px solid #ccd6ee;background:#f7f9ff;color:#263f7d;border-radius:999px;padding:.28rem .72rem;font-size:.9rem;font-weight:650}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}
+    .grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .card{border:1px solid var(--line);border-radius:15px;background:#fbfcff;padding:14px 16px}
+    .card h4{margin:.1rem 0 .35rem;color:#172554}
+    .note{border-left:5px solid var(--accent);background:var(--accent2);padding:12px 14px;border-radius:12px;margin:16px 0}
+    .task{border-left:5px solid #b7791f;background:var(--warn);padding:12px 14px;border-radius:12px;margin:16px 0}
+    .check{border-left:5px solid #22863a;background:var(--good);padding:12px 14px;border-radius:12px;margin:16px 0}
+    .trap{border-left:5px solid #b42318;background:var(--bad);padding:12px 14px;border-radius:12px;margin:16px 0}
+    .formula{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;background:#f3f5fb;border:1px solid #d9deea;border-radius:12px;padding:12px 14px;overflow:auto;margin:12px 0;white-space:normal}
+    .reaction{font-size:1.02rem;text-align:center;white-space:normal}
+    details{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;margin:10px 0}
+    summary{cursor:pointer;font-weight:700;color:#263f7d}
+    .see-also{margin-top:28px;padding-top:14px;border-top:1px dashed #bcc4d6;color:#475467;font-style:italic}
+    .pager{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+    .pager button,.topbutton{
+      border:0;background:var(--accent);color:white;border-radius:12px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer;
+    }
+    .pager button[disabled]{opacity:.35;cursor:not-allowed}
+    .topbutton{background:#eef3ff;color:#263f7d;border:1px solid #c9d5f2}
+    table{width:100%;border-collapse:collapse;margin:14px 0;border:1px solid var(--line);overflow:hidden;border-radius:12px;background:#fff}
+    th,td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+    th{background:#f0f4ff;color:#172554}
+    .mini{font-size:.92rem;color:#475467}
+    .print-note{display:none}
+    mark{background:#fff1a8;padding:.05em .18em;border-radius:.25em}
+    .selfcheck label{display:block;margin:.45rem 0;cursor:pointer}
+    input[type="checkbox"]{transform:scale(1.15);margin-right:.45rem;accent-color:#263f7d}
+    @media (max-width:900px){.layout{grid-template-columns:1fr}nav{position:relative;top:0}.grid,.grid.three{grid-template-columns:1fr}}
+    @media print{
+      body{background:white}.layout{display:block;margin:0;padding:0}header,nav,.pager,.topbutton{display:none}.page{display:block!important;box-shadow:none;border:0;page-break-after:always}.print-note{display:block}.see-also{break-inside:avoid}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="eyebrow">Chemie Q1 · Grundkurs · Lernpfad</div>
+    <h1>Kunststoffe – problematische Alleskönner</h1>
+    <p class="subtitle">Ein interaktiver Wiederholungspfad zu Struktur, Eigenschaften, Herstellung, Verarbeitung und Wiederverwertung von Kunststoffen. Arbeiten Sie die Seiten nacheinander durch oder springen Sie gezielt zu den Themen, die Sie wiederholen möchten.</p>
+  </div>
+</header>
+<div class="layout">
+  <nav aria-label="Lernpfad-Navigation">
+    <h2>Ihre Seiten</h2>
+    <button class="navlink active" data-target="start"><span class="num">1</span><span>Start und Lernziele</span></button>
+    <button class="navlink" data-target="vorwissen"><span class="num">2</span><span>Vorwissen: Gruppen, Bindungen, Wechselwirkungen</span></button>
+    <button class="navlink" data-target="einteilung"><span class="num">3</span><span>Bau, Eigenschaften und Kunststoffklassen</span></button>
+    <button class="navlink" data-target="eigenschaften"><span class="num">4</span><span>Eigenschaften experimentell deuten</span></button>
+    <button class="navlink" data-target="monomer"><span class="num">5</span><span>Vom Monomer zum Polymer</span></button>
+    <button class="navlink" data-target="polymerisation"><span class="num">6</span><span>Polymerisation: PE und PVC</span></button>
+    <button class="navlink" data-target="polykondensation"><span class="num">7</span><span>Polykondensation: Polyester und PET</span></button>
+    <button class="navlink" data-target="repetiereinheiten"><span class="num">8</span><span>Repetiereinheiten und Vernetzung</span></button>
+    <button class="navlink" data-target="verarbeitung"><span class="num">9</span><span>Verarbeitung von Thermoplasten</span></button>
+    <button class="navlink" data-target="recycling"><span class="num">10</span><span>Wiederverwertung und Kreisläufe</span></button>
+    <button class="navlink" data-target="nachhaltigkeit"><span class="num">11</span><span>Umweltproblematik und Alternativen</span></button>
+    <button class="navlink" data-target="training"><span class="num">12</span><span>Selbsttest und Prüfungstraining</span></button>
+    <button class="navlink" data-target="checkliste"><span class="num">13</span><span>Abschluss-Checkliste</span></button>
+    <div class="progress-wrap" aria-label="Fortschritt">
+      <div class="progress-label"><span>Fortschritt</span><span id="progressText">1 / 13</span></div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="page active" id="start">
+      <h2 class="page-title">1. Start: Warum sind Kunststoffe problematische Alleskönner?</h2>
+      <p class="lead">Kunststoffe sind synthetische Makromoleküle, die aus vielen kleinen Bausteinen aufgebaut sind. Ihre Struktur kann so verändert werden, dass sehr unterschiedliche Eigenschaften entstehen: weich oder hart, elastisch oder formstabil, durchsichtig oder undurchsichtig, beständig oder zersetzbar.</p>
+      <div class="pillrow">
+        <span class="pill">Monomer</span><span class="pill">Polymer</span><span class="pill">Thermoplast</span><span class="pill">Duroplast</span><span class="pill">Elastomer</span><span class="pill">Polymerisation</span><span class="pill">Polykondensation</span><span class="pill">Recycling</span>
+      </div>
+      <h3>So arbeiten Sie mit dem Lernpfad</h3>
+      <ol>
+        <li>Lesen Sie jede Seite konzentriert und notieren Sie Fachbegriffe, die Sie noch unsicher verwenden.</li>
+        <li>Bearbeiten Sie die Selbstkontrollen zunächst ohne Lösungshinweise.</li>
+        <li>Nutzen Sie die Rubrik <em>Siehe auch ...</em>, sobald dort später Hinweise auf Unterrichtsmaterial, Tafelbilder oder Schüleraufzeichnungen ergänzt wurden.</li>
+        <li>Springen Sie bei Unsicherheiten zurück zu den Seiten über Struktur, funktionelle Gruppen und Wechselwirkungen.</li>
+      </ol>
+      <div class="note">
+        <strong>Leitidee:</strong> In diesem Themenfeld geht es immer wieder um dieselbe Denkbewegung: <mark>Struktur → Wechselwirkungen → Eigenschaften → Verwendung → Bewertung</mark>. Eine gute chemische Antwort beschreibt nicht nur, dass ein Kunststoff praktisch ist, sondern begründet dies aus seinem Molekülbau.
+      </div>
+      <h3>Am Ende sollten Sie sicher erklären können ...</h3>
+      <ul>
+        <li>wie Monomere zu Polymeren beziehungsweise Makromolekülen verknüpft werden,</li>
+        <li>wie Thermoplaste, Duroplaste und Elastomere strukturell unterschieden werden,</li>
+        <li>wie Eigenschaften wie Verhalten beim Erwärmen, Brennbarkeit, Dichte und Lösungsmittelbeständigkeit untersucht und gedeutet werden,</li>
+        <li>wie Polymerisation und Polykondensation am Beispiel einfacher Kunststoffe funktionieren,</li>
+        <li>wie man Repetiereinheiten erkennt und formuliert,</li>
+        <li>welche Möglichkeiten und Grenzen werkstofflicher, rohstofflicher und thermischer Verwertung bestehen,</li>
+        <li>wie man Kunststoffnutzung fachlich und nachhaltig bewertet.</li>
+      </ul>
+      <div class="task">
+        <strong>Vorabfrage:</strong> Wählen Sie einen Kunststoffgegenstand aus Ihrem Alltag. Notieren Sie: Welche Eigenschaft macht ihn nützlich? Welche Eigenschaft macht ihn problematisch?
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button disabled>Zurück</button><button onclick="showPageByIndex(1)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="vorwissen">
+      <h2 class="page-title">2. Vorwissen: funktionelle Gruppen, Bindungen und Wechselwirkungen</h2>
+      <p class="lead">Die Kunststoffchemie baut auf Grundlagen der organischen Chemie auf. Entscheidend sind funktionelle Gruppen, Mehrfachbindungen, Elektronenpaarbindungen und Wechselwirkungen zwischen Polymerketten.</p>
+      <h3>Funktionelle Gruppen und Strukturmerkmale</h3>
+      <div class="grid">
+        <div class="card"><h4>C=C-Doppelbindung</h4><p class="formula">CH₂=CH₂</p><p>Reaktivitätszentrum vieler Monomere. Bei der Polymerisation wird die Doppelbindung geöffnet und es entstehen neue C–C-Bindungen.</p></div>
+        <div class="card"><h4>Halogenalkan / Chlorsubstituent</h4><p class="formula">–C–Cl</p><p>Beeinflusst Polarität, Dichte, Brennbarkeit und chemische Eigenschaften, z. B. bei PVC.</p></div>
+        <div class="card"><h4>Carboxy-Gruppe</h4><p class="formula">–COOH</p><p>Kann mit Hydroxy-Gruppen Ester bilden. Wichtig bei Polyester-Synthesen.</p></div>
+        <div class="card"><h4>Hydroxy-Gruppe</h4><p class="formula">–OH</p><p>Reagiert mit Carboxy-Gruppen zu Estern und ist daher für Polyester wichtig.</p></div>
+        <div class="card"><h4>Estergruppe</h4><p class="formula">–COO–</p><p>Verknüpft Bausteine in Polyestern. Esterbindungen können grundsätzlich hydrolysiert werden.</p></div>
+        <div class="card"><h4>Elektronenpaarbindung</h4><p class="formula">C–C, C–H, C–Cl, C–O</p><p>Kovalente Bindungen bilden das Grundgerüst der Makromoleküle.</p></div>
+      </div>
+      <h3>Wechselwirkungen zwischen Polymerketten</h3>
+      <table>
+        <thead><tr><th>Wechselwirkung</th><th>Ursache</th><th>Folge für Kunststoffe</th></tr></thead>
+        <tbody>
+          <tr><td>Van-der-Waals-Wechselwirkungen</td><td>temporäre Dipole, besonders in unpolaren Ketten</td><td>tragen zur Festigkeit vieler Thermoplaste bei; Stärke nimmt mit Kettenlänge und Packung zu</td></tr>
+          <tr><td>Dipol-Dipol-Wechselwirkungen</td><td>polare Bindungen oder Gruppen</td><td>können Schmelzbereich, Härte und Lösungsmittelverhalten beeinflussen</td></tr>
+          <tr><td>Wasserstoffbrücken</td><td>stark polare Gruppen mit H an O oder N</td><td>erhöhen oft Festigkeit und Temperaturbeständigkeit</td></tr>
+          <tr><td>Kovalente Vernetzung</td><td>chemische Bindungen zwischen Ketten</td><td>führt zu Duroplasten oder Elastomeren, je nach Vernetzungsgrad</td></tr>
+        </tbody>
+      </table>
+      <div class="trap"><strong>Typischer Fehler:</strong> Polymerketten bestehen nicht aus „aneinandergeklebten Molekülen“, sondern aus kovalent verknüpften Bausteinen. Zwischen verschiedenen Ketten wirken zusätzlich schwächere Wechselwirkungen oder kovalente Vernetzungen.</div>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Erklären Sie, warum man für Kunststoff-Eigenschaften sowohl Bindungen innerhalb einer Kette als auch Wechselwirkungen zwischen Ketten betrachten muss.
+        <details><summary>Lösungshinweis anzeigen</summary><p>Die kovalenten Bindungen innerhalb der Kette bestimmen den chemischen Aufbau des Makromoleküls. Die Wechselwirkungen zwischen Ketten beeinflussen, wie stark die Ketten zusammenhalten, ob sie gegeneinander gleiten können und wie sich der Kunststoff beim Erwärmen, Verformen oder Lösen verhält.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(0)">Zurück</button><button onclick="showPageByIndex(2)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="einteilung">
+      <h2 class="page-title">3. Bau, Eigenschaften und Einteilung der Kunststoffe</h2>
+      <p class="lead">Kunststoffe werden im Grundkurs vor allem nach Struktur und Eigenschaften in drei Klassen eingeteilt: Thermoplaste, Duroplaste und Elastomere. Diese Einteilung ist ein Struktur-Eigenschafts-Modell.</p>
+      <h3>Die drei Kunststoffklassen</h3>
+      <table>
+        <thead><tr><th>Kunststoffklasse</th><th>Strukturmodell</th><th>Verhalten beim Erwärmen</th><th>Beispiele für Eigenschaften</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Thermoplaste</strong></td><td>lineare oder verzweigte Ketten; nicht kovalent vernetzt</td><td>werden weich und sind schmelzbar beziehungsweise umformbar</td><td>gut verarbeitbar, oft recyclingfähig durch erneutes Schmelzen</td></tr>
+          <tr><td><strong>Duroplaste</strong></td><td>engmaschig kovalent vernetztes Netzwerk</td><td>schmelzen nicht; zersetzen sich bei starker Hitze</td><td>hart, formstabil, wärmebeständiger, spröde</td></tr>
+          <tr><td><strong>Elastomere</strong></td><td>weitmaschig kovalent vernetzte Ketten</td><td>werden nicht einfach schmelzbar; elastische Rückstellung bleibt begrenzt erhalten</td><td>gummiartig, dehnbar, kehren nach Verformung weitgehend zurück</td></tr>
+        </tbody>
+      </table>
+      <h3>Warum ist Vernetzung so wichtig?</h3>
+      <p>Bei Thermoplasten können Ketten beim Erwärmen leichter gegeneinander gleiten. Bei Duroplasten verhindern viele kovalente Vernetzungen dieses Gleiten. Bei Elastomeren gibt es nur wenige Vernetzungspunkte; die Ketten können gedehnt werden, werden aber wieder zurückgezogen.</p>
+      <div class="grid three">
+        <div class="card"><h4>Thermoplast</h4><p>Ketten liegen nebeneinander. Beim Erwärmen nimmt die Beweglichkeit zu. Der Kunststoff kann umgeformt werden.</p></div>
+        <div class="card"><h4>Duroplast</h4><p>Viele Querverbindungen bilden ein starres Netzwerk. Umformen durch Schmelzen ist nicht möglich.</p></div>
+        <div class="card"><h4>Elastomer</h4><p>Wenige Querverbindungen erlauben Dehnung, verhindern aber dauerhaftes Fließen.</p></div>
+      </div>
+      <div class="note"><strong>Merksatz:</strong> Je stärker Polymerketten kovalent vernetzt sind, desto weniger können sie beim Erwärmen gegeneinander gleiten.</div>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Ein Kunststoff wird beim Erwärmen weich und lässt sich neu verformen. Welcher Kunststoffklasse ordnen Sie ihn zu? Begründen Sie strukturell.
+        <details><summary>Lösungshinweis anzeigen</summary><p>Das spricht für einen Thermoplasten. Die Polymerketten sind nicht kovalent zu einem starren Netzwerk vernetzt und können bei erhöhter Temperatur stärker gegeneinander beweglich werden.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(1)">Zurück</button><button onclick="showPageByIndex(3)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="eigenschaften">
+      <h2 class="page-title">4. Eigenschaften experimentell untersuchen und deuten</h2>
+      <p class="lead">Im Unterricht werden Kunststoffe nicht nur benannt, sondern anhand ihrer Eigenschaften untersucht. Die Beobachtungen müssen mit dem Bau der Polymere verknüpft werden.</p>
+      <h3>Typische Untersuchungen</h3>
+      <table>
+        <thead><tr><th>Untersuchung</th><th>Mögliche Beobachtung</th><th>Chemische Deutung</th></tr></thead>
+        <tbody>
+          <tr><td>Verhalten beim Erwärmen</td><td>Erweichen, Schmelzen, Schrumpfen, Zersetzen</td><td>Hinweis auf Thermoplast, Duroplast oder Elastomer; abhängig von Beweglichkeit und Vernetzung der Ketten</td></tr>
+          <tr><td>Brennbarkeit</td><td>brennt leicht, rußt, verlöscht, unangenehmer Geruch</td><td>hängt von Elementzusammensetzung und Struktur ab; sicherheitsrelevant, aber kein einzelnes eindeutiges Identifikationsmerkmal</td></tr>
+          <tr><td>Dichte</td><td>schwimmt oder sinkt in Wasser beziehungsweise Salzlösungen</td><td>kann zur Sortierung genutzt werden, z. B. im Schwimm-Sink-Verfahren</td></tr>
+          <tr><td>Verhalten gegenüber Lösungsmitteln</td><td>quillt, löst sich teilweise, bleibt unverändert</td><td>abhängig von Polarität, Wechselwirkungen und Vernetzung</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><strong>Sicherheitsregel:</strong> Brennproben und Erhitzungsversuche dürfen nur nach Anweisung und unter geeigneten Sicherheitsbedingungen durchgeführt werden. Manche Kunststoffe bilden beim Erhitzen gesundheitsschädliche Zersetzungsprodukte.</div>
+      <h3>Struktur-Eigenschafts-Beziehungen formulieren</h3>
+      <p>Eine gute Auswertung folgt meist diesem Muster:</p>
+      <div class="formula">Beobachtung → mögliche Eigenschaft → Strukturdeutung → Einschränkung</div>
+      <div class="card"><h4>Beispiel</h4><p>„Die Probe wird beim Erwärmen weich und verformbar. Das spricht für einen Thermoplasten, weil die Polymerketten beim Erwärmen beweglicher werden und gegeneinander gleiten können. Ein eindeutiger Stoffname ergibt sich daraus allein noch nicht.“</p></div>
+      <div class="trap"><strong>Typischer Fehler:</strong> Eine Beobachtung ist noch keine Erklärung. „Der Kunststoff schmilzt, weil er ein Thermoplast ist“ ist nur eine Einordnung. Besser ist: „... weil seine Ketten nicht kovalent vernetzt sind und bei Erwärmung beweglicher werden.“</div>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Warum ist das Schwimm-Sink-Verfahren für Kunststoffsortierung nützlich, aber nicht perfekt?
+        <details><summary>Lösungshinweis anzeigen</summary><p>Es nutzt Dichteunterschiede. Kunststoffe mit geringerer Dichte als die Flüssigkeit schwimmen, solche mit höherer Dichte sinken. Es ist nicht perfekt, weil verschiedene Kunststoffe ähnliche Dichten haben können und Additive, Verschmutzungen oder Verbundmaterialien die Dichte verändern.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(2)">Zurück</button><button onclick="showPageByIndex(4)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="monomer">
+      <h2 class="page-title">5. Vom Monomer zum Polymer: Grundprinzipien</h2>
+      <p class="lead">Ein Kunststoff entsteht, wenn viele kleine Moleküle zu sehr großen Molekülen verknüpft werden. Die kleinen Bausteine heißen Monomere, das große Molekül heißt Polymer oder Makromolekül.</p>
+      <h3>Grundbegriffe</h3>
+      <div class="grid">
+        <div class="card"><h4>Monomer</h4><p>Kleines, reaktionsfähiges Molekül, aus dem ein Polymer aufgebaut werden kann.</p></div>
+        <div class="card"><h4>Polymer / Makromolekül</h4><p>Sehr großes Molekül, das aus vielen verknüpften Bausteinen besteht.</p></div>
+        <div class="card"><h4>Repetiereinheit</h4><p>Struktureinheit, die sich in der Polymerkette regelmäßig wiederholt.</p></div>
+        <div class="card"><h4>Polymerisat / Polykondensat</h4><p>Polymerisate entstehen durch Polymerisation; Polykondensate durch Polykondensation.</p></div>
+      </div>
+      <h3>Addition und Substitution als Vorwissen für Monomere</h3>
+      <p>Manche Kunststoffmonomere entstehen selbst erst durch organische Reaktionen. Im Grundkurs ist dafür die Bildung von Vinylchlorid aus Ethin und Chlorwasserstoff ein wichtiges Beispiel. Dabei wird an eine Mehrfachbindung addiert.</p>
+      <div class="formula reaction">HC≡CH + HCl → CH₂=CHCl</div>
+      <p>Das Produkt <strong>Vinylchlorid</strong> ist das Monomer für PVC. Die vereinfachte mechanistische Idee: Eine polare H–Cl-Bindung und eine elektronenreiche Mehrfachbindung ermöglichen einen elektrophilen Angriff; anschließend wird Chlorid gebunden.</p>
+      <h3>Zwei zentrale Kunststoffsynthesen im Grundkurs</h3>
+      <table>
+        <thead><tr><th>Syntheseart</th><th>Typische Monomere</th><th>Entsteht ein kleines Nebenprodukt?</th><th>Beispiel</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Polymerisation</strong></td><td>Monomere mit C=C-Doppelbindung</td><td>nein</td><td>Ethen → Polyethen</td></tr>
+          <tr><td><strong>Polykondensation</strong></td><td>Monomere mit mindestens zwei reaktionsfähigen funktionellen Gruppen</td><td>ja, z. B. Wasser</td><td>Dicarbonsäure + Diol → Polyester</td></tr>
+        </tbody>
+      </table>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Warum muss ein Monomer für eine Kettenbildung mindestens zwei Verknüpfungsmöglichkeiten besitzen?
+        <details><summary>Lösungshinweis anzeigen</summary><p>Eine Polymerkette wächst nur, wenn ein Baustein an mindestens zwei Stellen mit weiteren Bausteinen verbunden werden kann. Ein Molekül mit nur einer reaktiven Stelle könnte eine Kette abbrechen, aber keine fortlaufende Kettenstruktur aufbauen.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(3)">Zurück</button><button onclick="showPageByIndex(5)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="polymerisation">
+      <h2 class="page-title">6. Polymerisation: Polyethen und Polyvinylchlorid</h2>
+      <p class="lead">Bei der Polymerisation werden viele ungesättigte Monomere miteinander verknüpft. Die C=C-Doppelbindung der Monomere wird dabei in neue Einfachbindungen innerhalb der Polymerkette überführt.</p>
+      <h3>Polyethen aus Ethen</h3>
+      <div class="formula reaction">n CH₂=CH₂ → [–CH₂–CH₂–]ₙ</div>
+      <p>Aus vielen Ethen-Molekülen entsteht Polyethen. Die Repetiereinheit ist <span class="formula">–CH₂–CH₂–</span>. Es entsteht kein kleines Nebenprodukt.</p>
+      <h3>Polyvinylchlorid aus Vinylchlorid</h3>
+      <div class="formula reaction">n CH₂=CHCl → [–CH₂–CHCl–]ₙ</div>
+      <p>Bei PVC trägt jede Repetiereinheit einen Chlor-Substituenten. Dadurch unterscheidet sich PVC deutlich von PE, obwohl beide durch Polymerisation aus Vinyl-Monomeren entstehen.</p>
+      <h3>Was bedeutet der Index n?</h3>
+      <p>Das <strong>n</strong> steht für eine sehr große Zahl von Monomeren beziehungsweise Repetiereinheiten. Ein Kunststoff ist daher kein einzelnes kleines Molekül mit exakter Größe, sondern ein Stoff aus Makromolekülen unterschiedlicher Kettenlängen.</p>
+      <div class="note"><strong>Merksatz:</strong> Bei der Polymerisation wird die Mehrfachbindung nicht „beibehalten“, sondern für die Bildung neuer Bindungen in der Kette genutzt.</div>
+      <div class="trap"><strong>Typischer Fehler:</strong> Schreiben Sie bei Polymeren nicht einfach viele Monomere nebeneinander. Kennzeichnen Sie die Repetiereinheit in Klammern und verwenden Sie den Index n.</div>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Formulieren Sie die Repetiereinheit von Polypropen aus dem Monomer CH₂=CH–CH₃.
+        <details><summary>Lösungshinweis anzeigen</summary><p>Die Repetiereinheit lautet vereinfacht [–CH₂–CH(CH₃)–]ₙ. Die Doppelbindung wird geöffnet; die Methylgruppe bleibt als Seitenrest erhalten.</p></details>
+      </div>
+      <p class="see-also">Siehe auch "Kunststoffe_M6.pdf"</p>
+      <div class="pager"><button onclick="showPageByIndex(4)">Zurück</button><button onclick="showPageByIndex(6)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="polykondensation">
+      <h2 class="page-title">7. Polykondensation: Polyester und PET</h2>
+      <p class="lead">Bei der Polykondensation reagieren Monomere mit mindestens zwei funktionellen Gruppen miteinander. Dabei entstehen Polymerketten und kleine Moleküle als Nebenprodukte, häufig Wasser.</p>
+      <h3>Grundprinzip der Esterbildung</h3>
+      <div class="formula reaction">Carbonsäure + Alkohol ⇌ Ester + Wasser</div>
+      <p>Polyester entstehen, wenn Dicarbonsäuren und Diole miteinander reagieren. Da jedes Monomer zwei reaktive Gruppen besitzt, kann sich eine lange Kette bilden.</p>
+      <h3>Vereinfachtes Schema einer Polyesterbildung</h3>
+      <div class="formula reaction">n HOOC–R–COOH + n HO–R'–OH → [–OC–R–COO–R'–O–]ₙ + 2n H₂O</div>
+      <p>Das Schema zeigt das Prinzip. In konkreten Aufgaben müssen Sie die Struktur der Monomere genau beachten und die Repetiereinheit passend formulieren.</p>
+      <h3>PET als wichtiges Beispiel</h3>
+      <p>PET ist ein Polyester. Typische Monomerbausteine sind eine aromatische Dicarbonsäure-Komponente und Ethandiol. Der Kunststoff ist unter anderem für Getränkeflaschen und Fasern bekannt. Entscheidend ist die Estergruppe in der Hauptkette.</p>
+      <div class="grid">
+        <div class="card"><h4>Polymerisation</h4><p>Viele Doppelbindungen werden geöffnet; es entsteht kein kleines Nebenprodukt.</p></div>
+        <div class="card"><h4>Polykondensation</h4><p>Funktionelle Gruppen reagieren; dabei wird ein kleines Molekül abgespalten, z. B. Wasser.</p></div>
+      </div>
+      <h3>Hydrolyse als Gegenrichtung</h3>
+      <p>Esterbindungen können unter geeigneten Bedingungen durch Hydrolyse gespalten werden. Das ist für rohstoffliches Recycling bestimmter Polyester bedeutsam: Aus dem Polymer können wieder kleinere Bausteine oder verwertbare Stoffe gewonnen werden.</p>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Woran erkennen Sie in einer Strukturformel, dass ein Polymer ein Polyester ist?
+        <details><summary>Lösungshinweis anzeigen</summary><p>Ein Polyester besitzt Estergruppen in der Hauptkette. Sie erkennen diese an der Struktur –COO– beziehungsweise –O–CO– zwischen den Bausteinen.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(5)">Zurück</button><button onclick="showPageByIndex(7)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="repetiereinheiten">
+      <h2 class="page-title">8. Repetiereinheiten und Vernetzung formulieren</h2>
+      <p class="lead">In Klausuraufgaben sollen Sie häufig aus einem Monomer die Repetiereinheit ableiten oder aus einer Repetiereinheit auf mögliche Monomere schließen. Dabei ist saubere Strukturformelschreibweise wichtig.</p>
+      <h3>Repetiereinheiten bei Polymerisaten</h3>
+      <p>Bei Monomeren mit C=C-Doppelbindung wird aus der Doppelbindung ein Abschnitt der Kette. Seitenreste bleiben Seitenreste.</p>
+      <table>
+        <thead><tr><th>Monomer</th><th>Polymer-Repetiereinheit</th><th>Hinweis</th></tr></thead>
+        <tbody>
+          <tr><td>CH₂=CH₂</td><td>[–CH₂–CH₂–]ₙ</td><td>kein Seitenrest</td></tr>
+          <tr><td>CH₂=CHCl</td><td>[–CH₂–CHCl–]ₙ</td><td>Chlor bleibt als Substituent erhalten</td></tr>
+          <tr><td>CH₂=CH–CH₃</td><td>[–CH₂–CH(CH₃)–]ₙ</td><td>Methylgruppe bleibt Seitenrest</td></tr>
+        </tbody>
+      </table>
+      <h3>Repetiereinheiten bei Polykondensaten</h3>
+      <p>Bei Polykondensaten ist die Repetiereinheit aus den Resten der Monomere aufgebaut. Die kleinen abgespaltenen Moleküle gehören nicht zur Polymerkette.</p>
+      <div class="formula reaction">HOOC–R–COOH + HO–R'–OH → –CO–R–COO–R'–O– + Wasser</div>
+      <h3>Vernetzung durch geeignete Monomere</h3>
+      <p>Wenn Monomere mehr als zwei Verknüpfungsmöglichkeiten besitzen, können Ketten miteinander verbunden werden. Dadurch entstehen Netzwerke. Je nach Vernetzungsgrad entstehen eher Elastomere oder Duroplaste.</p>
+      <div class="note"><strong>Klausurstrategie:</strong> Markieren Sie zuerst die reaktiven Gruppen oder die Doppelbindung im Monomer. Leiten Sie danach erst die Repetiereinheit ab. So vermeiden Sie, Seitenreste versehentlich in die Hauptkette einzubauen.</div>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Warum kann ein dreifunktionelles Monomer zur Vernetzung führen?
+        <details><summary>Lösungshinweis anzeigen</summary><p>Ein dreifunktionelles Monomer kann an mehr als zwei Stellen Bindungen zu anderen Bausteinen ausbilden. Dadurch entsteht nicht nur eine lineare Kette, sondern es können Querverbindungen zwischen Ketten entstehen.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(6)">Zurück</button><button onclick="showPageByIndex(8)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="verarbeitung">
+      <h2 class="page-title">9. Verarbeitung von Thermoplasten</h2>
+      <p class="lead">Viele Alltagsgegenstände entstehen durch Verarbeitung von Thermoplasten. Die Voraussetzung ist, dass Thermoplaste beim Erwärmen weich oder schmelzbar werden und beim Abkühlen wieder erstarren.</p>
+      <h3>Zwei wichtige Verarbeitungsverfahren</h3>
+      <table>
+        <thead><tr><th>Verfahren</th><th>Prinzip</th><th>Typische Produkte</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Spritzgießen</strong></td><td>geschmolzener Kunststoff wird unter Druck in eine Form gespritzt und erstarrt dort</td><td>Gehäuse, Deckel, Spielzeugteile, technische Bauteile</td></tr>
+          <tr><td><strong>Extrusion</strong></td><td>geschmolzener Kunststoff wird kontinuierlich durch eine Düse gepresst</td><td>Rohre, Profile, Folien, Kabelummantelungen</td></tr>
+        </tbody>
+      </table>
+      <h3>Struktur-Eigenschaft-Verarbeitungs-Zusammenhang</h3>
+      <p>Thermoplaste sind verarbeitbar, weil ihre Ketten nicht durch ein starres kovalentes Netzwerk verbunden sind. Beim Erwärmen werden die Ketten beweglicher; beim Abkühlen nehmen die Wechselwirkungen wieder zu und der Gegenstand bleibt in Form.</p>
+      <div class="grid">
+        <div class="card"><h4>Vorteil</h4><p>Thermoplaste lassen sich schnell in großen Stückzahlen formen und häufig erneut einschmelzen.</p></div>
+        <div class="card"><h4>Grenze</h4><p>Erneutes Erhitzen kann Alterung, Zersetzung oder Qualitätsverlust verursachen; Additive und Verunreinigungen erschweren Wiederverarbeitung.</p></div>
+      </div>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Warum eignet sich ein Duroplast nicht für dieselbe Art von Schmelzverarbeitung wie ein Thermoplast?
+        <details><summary>Lösungshinweis anzeigen</summary><p>Duroplaste besitzen ein engmaschig kovalent vernetztes Netzwerk. Beim Erwärmen können die Ketten nicht einfach gegeneinander gleiten; der Stoff schmilzt nicht formbar, sondern zersetzt sich bei starker Erhitzung.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(7)">Zurück</button><button onclick="showPageByIndex(9)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="recycling">
+      <h2 class="page-title">10. Wiederverwertung und Kunststoffkreisläufe</h2>
+      <p class="lead">Recycling ist nicht einfach „Kunststoff wird wieder Kunststoff“. Es gibt verschiedene Verwertungswege mit unterschiedlichen chemischen und ökologischen Konsequenzen.</p>
+      <h3>Drei Formen der Verwertung</h3>
+      <table>
+        <thead><tr><th>Verwertung</th><th>Prinzip</th><th>Chance</th><th>Grenze</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Werkstoffliche Verwertung</strong></td><td>Kunststoff wird sortiert, gereinigt, zerkleinert und erneut verarbeitet</td><td>Material bleibt als Kunststoff erhalten</td><td>Sortenreinheit und Qualität sind entscheidend</td></tr>
+          <tr><td><strong>Rohstoffliche Verwertung</strong></td><td>Polymerketten werden chemisch oder thermisch in kleinere Stoffe zerlegt, z. B. durch Hydrolyse oder Pyrolyse</td><td>Rückgewinnung von Rohstoffen möglich</td><td>technisch und energetisch aufwendig; nicht für jeden Kunststoff gleich geeignet</td></tr>
+          <tr><td><strong>Thermische Verwertung</strong></td><td>Kunststoffe werden verbrannt, um Energie zu nutzen</td><td>Energiegewinnung und Volumenreduktion</td><td>Material geht verloren; Abgasreinigung und CO₂-Bilanz sind zu beachten</td></tr>
+        </tbody>
+      </table>
+      <h3>Schwimm-Sink-Verfahren</h3>
+      <p>Beim Schwimm-Sink-Verfahren werden Dichteunterschiede genutzt, um Kunststoffe zu trennen. Eine Probe schwimmt, wenn ihre Dichte kleiner ist als die Dichte der Flüssigkeit; sie sinkt, wenn ihre Dichte größer ist.</p>
+      <h3>PET als Wertstoffkreislauf</h3>
+      <p>PET kann sortiert, gereinigt und wieder als Material eingesetzt werden. Je nach Verfahren kann PET werkstofflich recycelt oder chemisch gespalten werden. Für einen hochwertigen Kreislauf sind Sortenreinheit, Sammlung, Reinigung und geeignete Verarbeitung entscheidend.</p>
+      <div class="note"><strong>Bewertungsidee:</strong> Ein Kreislauf ist nicht automatisch nachhaltig, nur weil er „Recycling“ heißt. Entscheidend sind Energieaufwand, Materialverlust, Qualität des Rezyklats, Schadstoffe, Transport und tatsächliche Wiederverwendung.</div>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Ordnen Sie die Begriffe Pyrolyse und Hydrolyse der rohstofflichen Verwertung zu und erklären Sie kurz den Unterschied.
+        <details><summary>Lösungshinweis anzeigen</summary><p>Beide können zur rohstofflichen Verwertung gehören. Bei der Pyrolyse werden Stoffe durch starkes Erhitzen unter Sauerstoffmangel zerlegt. Bei der Hydrolyse werden Bindungen unter Beteiligung von Wasser gespalten, z. B. Esterbindungen in Polyestern unter geeigneten Bedingungen.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(8)">Zurück</button><button onclick="showPageByIndex(10)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="nachhaltigkeit">
+      <h2 class="page-title">11. Umweltproblematik und nachhaltige Alternativen</h2>
+      <p class="lead">Kunststoffe sind deshalb problematische Alleskönner, weil dieselben Eigenschaften, die sie nützlich machen, auch ökologische Schwierigkeiten verursachen können: Beständigkeit, geringe Dichte, günstige Herstellung und enorme Verbreitung.</p>
+      <h3>Wichtige Problembereiche</h3>
+      <div class="grid">
+        <div class="card"><h4>Ressourcen</h4><p>Viele klassische Kunststoffe beruhen auf fossilen Rohstoffen. Herstellung und Entsorgung sind daher mit Energie- und Stoffströmen verbunden, die bewertet werden müssen.</p></div>
+        <div class="card"><h4>Langlebigkeit</h4><p>Beständigkeit ist für Nutzung oft erwünscht, erschwert aber Abbau und Entsorgung in der Umwelt.</p></div>
+        <div class="card"><h4>Mikroplastik</h4><p>Durch Abrieb und Zerfall können kleine Kunststoffpartikel entstehen, die sich nur schwer wieder entfernen lassen.</p></div>
+        <div class="card"><h4>Additive und Verbundmaterialien</h4><p>Weichmacher, Farbstoffe, Füllstoffe oder Verbundstrukturen können Eigenschaften verbessern, aber Recycling erschweren.</p></div>
+      </div>
+      <h3>Nachhaltige Alternative? Vorsicht bei einfachen Antworten</h3>
+      <p>Ein biobasierter Kunststoff stammt ganz oder teilweise aus nachwachsenden Rohstoffen. Das bedeutet nicht automatisch, dass er biologisch abbaubar ist. Umgekehrt kann ein biologisch abbaubarer Kunststoff auch aus fossilen Rohstoffen hergestellt sein. Für eine Bewertung muss man den gesamten Lebensweg betrachten.</p>
+      <table>
+        <thead><tr><th>Begriff</th><th>Bedeutung</th><th>Bewertungsfrage</th></tr></thead>
+        <tbody>
+          <tr><td>biobasiert</td><td>Rohstoffe stammen ganz oder teilweise aus Biomasse</td><td>Wie werden Fläche, Wasser, Energie und Konkurrenz zur Nahrungsmittelproduktion bewertet?</td></tr>
+          <tr><td>biologisch abbaubar</td><td>kann unter bestimmten Bedingungen durch Mikroorganismen abgebaut werden</td><td>Gelten diese Bedingungen auch in der realen Umwelt oder nur in speziellen Anlagen?</td></tr>
+          <tr><td>recycelbar</td><td>kann technisch wiederverwertet werden</td><td>Gibt es Sammlung, Sortierung und einen Markt für das Rezyklat?</td></tr>
+        </tbody>
+      </table>
+      <div class="task">
+        <strong>Bewertungsaufgabe:</strong> „PLA ist grundsätzlich besser als PET, weil PLA biobasiert sein kann.“ Nehmen Sie fachlich begründet Stellung.
+        <details><summary>Lösungshinweis anzeigen</summary><p>Die Aussage ist zu einfach. Biobasiert bedeutet nicht automatisch umweltfreundlicher oder besser recycelbar. Bewertet werden müssen Rohstoffgewinnung, Herstellung, Nutzung, Abbaubedingungen, Recyclingmöglichkeiten, Energieaufwand und Entsorgungswege. PLA kann in bestimmten Kontexten Vorteile haben, ist aber nicht pauschal besser.</p></details>
+      </div>
+      <div class="note"><strong>Formulierung für Bewertungen:</strong> „Unter dem Kriterium ... spricht für ..., weil ... . Gegen ... spricht ..., weil ... . Insgesamt ist die Bewertung abhängig von ... .“</div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(9)">Zurück</button><button onclick="showPageByIndex(11)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="training">
+      <h2 class="page-title">12. Selbsttest und Prüfungstraining</h2>
+      <p class="lead">Nutzen Sie diese Seite, um zu prüfen, ob Sie Begriffe nicht nur wiedergeben, sondern in materialgebundenen Aufgaben anwenden können.</p>
+      <h3>Aufgabe 1: Kunststoffklasse begründen</h3>
+      <p>Ein Kunststoff wird beim Erwärmen weich, lässt sich verformen und wird beim Abkühlen wieder fest. Ordnen Sie ihn einer Kunststoffklasse zu und begründen Sie mithilfe des Strukturmodells.</p>
+      <details><summary>Lösungshinweis anzeigen</summary><p>Es handelt sich wahrscheinlich um einen Thermoplasten. Die Polymerketten sind nicht engmaschig kovalent vernetzt. Beim Erwärmen werden sie beweglicher und können gegeneinander gleiten; beim Abkühlen nimmt die Beweglichkeit wieder ab.</p></details>
+      <h3>Aufgabe 2: Repetiereinheit formulieren</h3>
+      <p>Formulieren Sie die Repetiereinheit für das Polymer aus dem Monomer CH₂=CHCl und benennen Sie das Polymer.</p>
+      <details><summary>Lösungshinweis anzeigen</summary><p>Die Repetiereinheit lautet [–CH₂–CHCl–]ₙ. Das Polymer ist Polyvinylchlorid, abgekürzt PVC.</p></details>
+      <h3>Aufgabe 3: Polymerisation und Polykondensation unterscheiden</h3>
+      <p>Vergleichen Sie Polymerisation und Polykondensation in drei fachlich präzisen Sätzen.</p>
+      <details><summary>Lösungshinweis anzeigen</summary><p>Bei der Polymerisation werden viele ungesättigte Monomere, häufig mit C=C-Doppelbindung, ohne Abspaltung kleiner Moleküle verknüpft. Bei der Polykondensation reagieren Monomere mit mindestens zwei funktionellen Gruppen miteinander, wobei kleine Moleküle wie Wasser abgespalten werden. Polymerisate wie PE unterscheiden sich dadurch von Polykondensaten wie PET.</p></details>
+      <h3>Aufgabe 4: Recycling bewerten</h3>
+      <p>Ein Hersteller wirbt: „Unser Produkt wird thermisch verwertet und ist deshalb nachhaltig.“ Beurteilen Sie diese Aussage.</p>
+      <details><summary>Lösungshinweis anzeigen</summary><p>Die Aussage ist einseitig. Thermische Verwertung nutzt zwar Energie und kann Abfallvolumen verringern, aber der Kunststoff geht als Material verloren. Für eine Nachhaltigkeitsbewertung müssen außerdem Rohstoffverbrauch, Emissionen, Abgasreinigung, mögliche werkstoffliche oder rohstoffliche Verwertung und Lebensdauer des Produkts berücksichtigt werden.</p></details>
+      <h3>Mini-Check</h3>
+      <div class="selfcheck check">
+        <label><input type="checkbox">Ich kann Monomer, Polymer, Makromolekül und Repetiereinheit unterscheiden.</label>
+        <label><input type="checkbox">Ich kann Thermoplaste, Duroplaste und Elastomere strukturell begründen.</label>
+        <label><input type="checkbox">Ich kann aus einem Vinyl-Monomer eine Repetiereinheit ableiten.</label>
+        <label><input type="checkbox">Ich kann Polymerisation und Polykondensation vergleichen.</label>
+        <label><input type="checkbox">Ich kann Recyclingwege unterscheiden und bewerten.</label>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(10)">Zurück</button><button onclick="showPageByIndex(12)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="checkliste">
+      <h2 class="page-title">13. Abschluss-Checkliste</h2>
+      <p class="lead">Diese letzte Seite bündelt die wichtigsten Fachbegriffe und Kompetenzen. Nutzen Sie sie zur Wiederholung vor einer Lernerfolgskontrolle, Klausur oder mündlichen Abfrage.</p>
+      <h3>Fachbegriffe, die Sie sicher verwenden sollten</h3>
+      <div class="grid">
+        <div class="card"><h4>Grundbegriffe</h4><p>Monomer, Polymer, Makromolekül, Repetiereinheit, Polymerisat, Polykondensat</p></div>
+        <div class="card"><h4>Kunststoffklassen</h4><p>Thermoplast, Duroplast, Elastomer, Vernetzung, lineare und verzweigte Ketten</p></div>
+        <div class="card"><h4>Synthese</h4><p>Addition, Substitution, Polymerisation, Polykondensation, Veresterung, Kondensationsreaktion</p></div>
+        <div class="card"><h4>Recycling</h4><p>werkstoffliche Verwertung, rohstoffliche Verwertung, thermische Verwertung, Pyrolyse, Hydrolyse, Schwimm-Sink-Verfahren</p></div>
+      </div>
+      <h3>Das sollten Sie können</h3>
+      <ol>
+        <li>Kunststoffe nach Struktur und Eigenschaften in Thermoplaste, Duroplaste und Elastomere einteilen.</li>
+        <li>Eigenschaften wie Verhalten beim Erwärmen, Brennbarkeit, Dichte und Lösungsmittelverhalten fachlich deuten.</li>
+        <li>Aus einfachen Monomeren Repetiereinheiten von Polymerisaten formulieren.</li>
+        <li>Polymerisation und Polykondensation unterscheiden und Beispiele nennen.</li>
+        <li>Die Bildung eines Polyesters aus Dicarbonsäure und Diol als Polykondensation beschreiben.</li>
+        <li>Den Zusammenhang zwischen funktionellen Gruppen der Monomere und Syntheseart erklären.</li>
+        <li>Verarbeitungsverfahren für Thermoplaste am Strukturmodell begründen.</li>
+        <li>Werkstoffliche, rohstoffliche und thermische Verwertung unterscheiden.</li>
+        <li>Kunststoffnutzung unter ökologischen, ökonomischen und sozialen Kriterien bewerten.</li>
+      </ol>
+      <h3>Formulierungshilfen für gute Antworten</h3>
+      <div class="card">
+        <p><strong>Struktur → Eigenschaft:</strong> „Da die Polymerketten ... sind, können sie ... . Deshalb zeigt der Kunststoff ... .“</p>
+        <p><strong>Synthese:</strong> „Bei der ... reagieren ... . Dabei entsteht ...; ein kleines Nebenprodukt ... .“</p>
+        <p><strong>Bewertung:</strong> „Aus ökologischer Sicht ..., aus ökonomischer Sicht ..., sozial beziehungsweise praktisch ... . Insgesamt ... .“</p>
+      </div>
+      <div class="task">
+        <strong>Abschlussaufgabe:</strong> Erstellen Sie eine Begriffskarte zu „Kunststoffe“. Verbinden Sie mindestens zehn Fachbegriffe durch Pfeile und beschriften Sie die Pfeile mit kurzen Begründungen, z. B. „besteht aus“, „entsteht durch“, „führt zu“, „ermöglicht“ oder „erschwert“.
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(11)">Zurück</button><button disabled>Weiter</button></div>
+    </section>
+  </main>
+</div>
+<script>
+  const ids = ["start","vorwissen","einteilung","eigenschaften","monomer","polymerisation","polykondensation","repetiereinheiten","verarbeitung","recycling","nachhaltigkeit","training","checkliste"];
+  const links = Array.from(document.querySelectorAll('.navlink'));
+  const pages = Array.from(document.querySelectorAll('.page'));
+  const bar = document.getElementById('bar');
+  const progressText = document.getElementById('progressText');
+  function showPage(id){
+    const index = ids.indexOf(id);
+    if(index < 0) return;
+    pages.forEach(p => p.classList.toggle('active', p.id === id));
+    links.forEach(l => l.classList.toggle('active', l.dataset.target === id));
+    const pct = ((index + 1) / ids.length) * 100;
+    bar.style.width = pct + '%';
+    progressText.textContent = (index + 1) + ' / ' + ids.length;
+    history.replaceState(null, '', '#' + id);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function showPageByIndex(index){ showPage(ids[index]); }
+  links.forEach(l => l.addEventListener('click', () => showPage(l.dataset.target)));
+  const initial = window.location.hash ? window.location.hash.substring(1) : 'start';
+  showPage(ids.includes(initial) ? initial : 'start');
+</script>
+</body>
+</html>
