@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lernpfad Reaktionsgeschwindigkeit und Katalyse – Chemie Q2 Grundkurs</title>
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --paper:#ffffff;
+      --ink:#1d2433;
+      --muted:#667085;
+      --line:#d6dbe6;
+      --accent:#263f7d;
+      --accent2:#eef3ff;
+      --good:#e9f7ef;
+      --warn:#fff7e8;
+      --bad:#fff0f0;
+      --shadow:0 10px 28px rgba(18,28,45,.10);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:linear-gradient(135deg,#f8f9fd 0%,#eef3ff 100%);
+      line-height:1.58;
+    }
+    header{
+      padding:34px 22px 24px;
+      background:linear-gradient(135deg,#172554 0%,#263f7d 55%,#4b6ec5 100%);
+      color:white;
+    }
+    .header-inner{max-width:1180px;margin:0 auto;}
+    .eyebrow{font-size:.92rem;letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin-bottom:8px}
+    h1{margin:.1rem 0 .4rem;font-size:clamp(2rem,4vw,3.6rem);line-height:1.05}
+    .subtitle{max-width:840px;font-size:1.08rem;opacity:.95;margin:0}
+    .layout{display:grid;grid-template-columns:310px 1fr;gap:22px;max-width:1180px;margin:22px auto;padding:0 18px 40px}
+    nav{
+      position:sticky;top:14px;align-self:start;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+      border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;
+    }
+    nav h2{font-size:1rem;margin:4px 8px 12px;color:var(--muted);font-weight:700}
+    .navlink{
+      display:flex;gap:10px;align-items:flex-start;width:100%;border:0;background:transparent;color:var(--ink);
+      text-align:left;border-radius:12px;padding:10px 10px;cursor:pointer;font:inherit;
+    }
+    .navlink:hover{background:#f0f4ff}
+    .navlink.active{background:var(--accent2);color:var(--accent);font-weight:700}
+    .num{flex:0 0 auto;width:1.8rem;height:1.8rem;border-radius:999px;background:#e5e9f7;display:grid;place-items:center;font-size:.85rem;font-weight:800;color:#263f7d}
+    .navlink.active .num{background:var(--accent);color:white}
+    .progress-wrap{margin:14px 8px 6px}
+    .progress-label{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin-bottom:5px}
+    .progress{height:9px;background:#e8ebf3;border-radius:99px;overflow:hidden}
+    .bar{height:100%;width:0;background:var(--accent);transition:width .25s ease}
+    main{min-width:0}
+    .page{
+      display:none;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+      padding:clamp(20px,3vw,36px);animation:fade .18s ease-in;
+    }
+    .page.active{display:block}
+    @keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}
+    h2.page-title{font-size:clamp(1.55rem,2.8vw,2.35rem);line-height:1.18;margin:0 0 8px;color:#172554}
+    h3{color:#263f7d;margin-top:1.4rem}
+    h4{margin-bottom:.3rem;color:#344054}
+    p{margin:.65rem 0}
+    ul,ol{padding-left:1.35rem}
+    li{margin:.35rem 0}
+    .lead{font-size:1.08rem;color:#344054;max-width:850px}
+    .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:.8rem 0 1.1rem}
+    .pill{display:inline-flex;align-items:center;border:1px solid #ccd6ee;background:#f7f9ff;color:#263f7d;border-radius:999px;padding:.28rem .72rem;font-size:.9rem;font-weight:650}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}
+    .grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .card{border:1px solid var(--line);border-radius:15px;background:#fbfcff;padding:14px 16px}
+    .card h4{margin:.1rem 0 .35rem;color:#172554}
+    .note{border-left:5px solid var(--accent);background:var(--accent2);padding:12px 14px;border-radius:12px;margin:16px 0}
+    .task{border-left:5px solid #b7791f;background:var(--warn);padding:12px 14px;border-radius:12px;margin:16px 0}
+    .check{border-left:5px solid #22863a;background:var(--good);padding:12px 14px;border-radius:12px;margin:16px 0}
+    .trap{border-left:5px solid #b42318;background:var(--bad);padding:12px 14px;border-radius:12px;margin:16px 0}
+    .formula{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;background:#f3f5fb;border:1px solid #d9deea;border-radius:12px;padding:12px 14px;overflow:auto;margin:12px 0;white-space:normal}
+    .reaction{font-size:1.02rem;text-align:center;white-space:normal}
+    details{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;margin:10px 0}
+    summary{cursor:pointer;font-weight:700;color:#263f7d}
+    .see-also{margin-top:28px;padding-top:14px;border-top:1px dashed #bcc4d6;color:#475467;font-style:italic}
+    .pager{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+    .pager button,.topbutton{
+      border:0;background:var(--accent);color:white;border-radius:12px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer;
+    }
+    .pager button[disabled]{opacity:.35;cursor:not-allowed}
+    .topbutton{background:#eef3ff;color:#263f7d;border:1px solid #c9d5f2}
+    table{width:100%;border-collapse:collapse;margin:14px 0;border:1px solid var(--line);overflow:hidden;border-radius:12px;background:#fff}
+    th,td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+    th{background:#f0f4ff;color:#172554}
+    .mini{font-size:.92rem;color:#475467}
+    .print-note{display:none}
+    mark{background:#fff1a8;padding:.05em .18em;border-radius:.25em}
+    .selfcheck label{display:block;margin:.45rem 0;cursor:pointer}
+    input[type="checkbox"]{transform:scale(1.15);margin-right:.45rem;accent-color:#263f7d}
+    .svgbox{border:1px solid var(--line);border-radius:15px;background:#fff;margin:14px 0;padding:10px;overflow:auto}
+    .svgbox svg{max-width:100%;height:auto;display:block;margin:auto}
+    .twocol{columns:2;column-gap:28px}
+    .twocol li{break-inside:avoid}
+    @media (max-width:900px){.layout{grid-template-columns:1fr}nav{position:relative;top:0}.grid,.grid.three{grid-template-columns:1fr}.twocol{columns:1}}
+    @media print{
+      body{background:white}.layout{display:block;margin:0;padding:0}header,nav,.pager,.topbutton{display:none}.page{display:block!important;box-shadow:none;border:0;page-break-after:always}.print-note{display:block}.see-also{break-inside:avoid}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="eyebrow">Chemie Q2 · Grundkurs · Lernpfad</div>
+    <h1>Reaktionsgeschwindigkeit und Katalyse</h1>
+    <p class="subtitle">Ein interaktiver Wiederholungspfad zum Verlauf chemischer Reaktionen: Warum laufen manche Reaktionen langsam, andere schnell — und wie kann man Reaktionsgeschwindigkeiten gezielt beeinflussen?</p>
+  </div>
+</header>
+<div class="layout">
+  <nav aria-label="Lernpfad-Navigation">
+    <h2>Ihre Seiten</h2>
+    <button class="navlink active" data-target="start"><span class="num">1</span><span>Start und Lernziele</span></button>
+    <button class="navlink" data-target="begriff"><span class="num">2</span><span>Was bedeutet Reaktionsgeschwindigkeit?</span></button>
+    <button class="navlink" data-target="stoss"><span class="num">3</span><span>Stoßtheorie: wirksame Zusammenstöße</span></button>
+    <button class="navlink" data-target="einfluss"><span class="num">4</span><span>Einflussfaktoren: Konzentration, Temperatur, Zerteilung</span></button>
+    <button class="navlink" data-target="rgt"><span class="num">5</span><span>RGT-Regel und Grenzen</span></button>
+    <button class="navlink" data-target="diagramme"><span class="num">6</span><span>Zeitlicher Verlauf und Diagramme</span></button>
+    <button class="navlink" data-target="aktivierung"><span class="num">7</span><span>Aktivierungsenergie und Reaktionsweg</span></button>
+    <button class="navlink" data-target="katalysator"><span class="num">8</span><span>Katalysatoren: Wirkung und Eigenschaften</span></button>
+    <button class="navlink" data-target="typen"><span class="num">9</span><span>Homogene, heterogene und Biokatalyse</span></button>
+    <button class="navlink" data-target="radikal"><span class="num">10</span><span>Radikalische Substitution</span></button>
+    <button class="navlink" data-target="training"><span class="num">11</span><span>Selbsttest und Prüfungstraining</span></button>
+    <button class="navlink" data-target="checkliste"><span class="num">12</span><span>Abschluss-Checkliste</span></button>
+    <div class="progress-wrap" aria-label="Fortschritt">
+      <div class="progress-label"><span>Fortschritt</span><span id="progressText">1 / 12</span></div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="page active" id="start">
+      <h2 class="page-title">1. Start: Worum geht es in diesem Lernpfad?</h2>
+      <p class="lead">Chemische Reaktionen unterscheiden sich nicht nur darin, ob sie Energie aufnehmen oder abgeben. Sie unterscheiden sich auch darin, <strong>wie schnell</strong> sie ablaufen. Im Themenfeld Reaktionsgeschwindigkeit und Katalyse untersuchen Sie, wovon diese Geschwindigkeit abhängt und wie sie gezielt gesteuert werden kann.</p>
+      <div class="pillrow">
+        <span class="pill">Reaktionsgeschwindigkeit</span><span class="pill">Stoßtheorie</span><span class="pill">RGT-Regel</span><span class="pill">Aktivierungsenergie</span><span class="pill">Katalyse</span><span class="pill">radikalische Substitution</span>
+      </div>
+      <h3>So arbeiten Sie mit dem Lernpfad</h3>
+      <ol>
+        <li>Bearbeiten Sie die Seiten der Reihe nach, wenn Sie das Themenfeld systematisch wiederholen möchten.</li>
+        <li>Nutzen Sie die Navigationsleiste, wenn Sie gezielt einzelne Inhalte nachschlagen wollen.</li>
+        <li>Bearbeiten Sie die Selbstkontrollen zunächst ohne Lösungshinweise.</li>
+        <li>Ergänzen Sie Ihre Unterrichtsnotizen später mithilfe der Rubrik <em>Siehe auch ...</em>.</li>
+      </ol>
+      <div class="note">
+        <strong>Leitidee:</strong> Reaktionsgeschwindigkeit ist kein Zufall. Auf Teilchenebene hängt sie davon ab, wie oft Teilchen wirksam zusammenstoßen und ob sie dabei genügend Energie und eine geeignete Orientierung besitzen. Katalysatoren eröffnen einen anderen Reaktionsweg mit geringerer Aktivierungsenergie.
+      </div>
+      <h3>Am Ende sollten Sie sicher erklären können ...</h3>
+      <ul>
+        <li>wie man Reaktionsgeschwindigkeit qualitativ und einfach quantitativ beschreibt,</li>
+        <li>wie Temperatur, Konzentration und Zerteilungsgrad die Geschwindigkeit beeinflussen,</li>
+        <li>wie Stoßtheorie, Mindestenergie und wirksamer Zusammenstoß zusammenhängen,</li>
+        <li>was die RGT-Regel aussagt und warum sie nur eine Faustregel ist,</li>
+        <li>wie ein Katalysator auf den Reaktionsweg und die Aktivierungsenergie wirkt,</li>
+        <li>wie homogene, heterogene und enzymatische Katalyse unterschieden werden,</li>
+        <li>wie die radikalische Substitution von Alkanen mit Halogenen grundsätzlich abläuft.</li>
+      </ul>
+      <div class="task">
+        <strong>Vorabfrage:</strong> Nennen Sie drei Alltagssituationen, in denen eine chemische Reaktion absichtlich beschleunigt oder verlangsamt wird. Ordnen Sie jeder Situation einen möglichen Einflussfaktor zu.
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button disabled>Zurück</button><button onclick="showPageByIndex(1)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="begriff">
+      <h2 class="page-title">2. Was bedeutet Reaktionsgeschwindigkeit?</h2>
+      <p class="lead">Die Reaktionsgeschwindigkeit beschreibt, wie schnell sich die Menge oder Konzentration eines Stoffes während einer chemischen Reaktion ändert. Man betrachtet also nicht nur Anfangs- und Endzustand, sondern den Verlauf der Reaktion.</p>
+      <h3>Qualitative Beschreibung</h3>
+      <p>Eine Reaktion kann sehr schnell ablaufen, zum Beispiel eine Explosion, oder sehr langsam, zum Beispiel das Rosten von Eisen. Im Unterricht wird oft untersucht, wie sich die Geschwindigkeit verändert, wenn man eine Bedingung verändert.</p>
+      <div class="grid">
+        <div class="card"><h4>Beobachtbare Hinweise</h4><ul><li>Gasentwicklung pro Zeit</li><li>Farbänderung pro Zeit</li><li>Massenänderung pro Zeit</li><li>Temperaturänderung pro Zeit</li><li>Trübung oder Niederschlag pro Zeit</li></ul></div>
+        <div class="card"><h4>Teilchenebene</h4><p>Auf Teilchenebene bedeutet eine höhere Reaktionsgeschwindigkeit: Pro Zeit finden mehr wirksame Zusammenstöße statt, bei denen Eduktteilchen zu Produktteilchen reagieren.</p></div>
+      </div>
+      <h3>Mittlere Reaktionsgeschwindigkeit</h3>
+      <p>Für einen einfachen Zeitraum kann man die mittlere Reaktionsgeschwindigkeit über eine Konzentrationsänderung berechnen:</p>
+      <div class="formula reaction">v = Δc / Δt</div>
+      <p>Dabei steht <strong>Δc</strong> für die Konzentrationsänderung und <strong>Δt</strong> für die Zeitspanne. Die Einheit kann zum Beispiel <span class="formula">mol · L⁻¹ · s⁻¹</span> sein.</p>
+      <div class="note"><strong>Wichtig:</strong> Wenn die Konzentration eines Eduktes abnimmt, ist Δc für dieses Edukt negativ. Häufig betrachtet man dann den Betrag der Änderung oder formuliert ausdrücklich: Die Eduktkonzentration nimmt pro Zeit ab.</div>
+      <h3>Durchschnitt ist nicht Momentanwert</h3>
+      <p>Die mittlere Reaktionsgeschwindigkeit gilt nur für ein Zeitintervall. Viele Reaktionen werden während des Ablaufs langsamer, weil die Eduktkonzentrationen sinken. Die Geschwindigkeit am Anfang ist daher oft nicht identisch mit der Geschwindigkeit später in der Reaktion.</p>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Bei einer Reaktion sinkt die Konzentration eines Eduktes in 20 s von 0,80 mol/L auf 0,50 mol/L. Berechnen Sie die mittlere Abnahmegeschwindigkeit des Eduktes.
+        <details><summary>Lösung anzeigen</summary><p>Δc = 0,50 mol/L − 0,80 mol/L = −0,30 mol/L. Für die Abnahme betrachtet man den Betrag: 0,30 mol/L. v = 0,30 mol/L / 20 s = 0,015 mol · L⁻¹ · s⁻¹.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(0)">Zurück</button><button onclick="showPageByIndex(2)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="stoss">
+      <h2 class="page-title">3. Stoßtheorie: wirksame Zusammenstöße</h2>
+      <p class="lead">Damit eine Reaktion stattfinden kann, müssen Teilchen auf geeignete Weise zusammentreffen. Die Stoßtheorie erklärt Reaktionsgeschwindigkeit auf Teilchenebene.</p>
+      <h3>Drei Bedingungen für eine erfolgreiche Reaktion</h3>
+      <div class="grid three">
+        <div class="card"><h4>1. Zusammenstoß</h4><p>Die Eduktteilchen müssen einander begegnen. Ohne Zusammenstoß keine Reaktion.</p></div>
+        <div class="card"><h4>2. Mindestenergie</h4><p>Die Teilchen müssen genug kinetische Energie besitzen, um den Übergangszustand erreichen zu können.</p></div>
+        <div class="card"><h4>3. Orientierung</h4><p>Bei vielen Reaktionen müssen bestimmte Molekülbereiche in geeigneter Orientierung zusammenstoßen.</p></div>
+      </div>
+      <p>Ein Zusammenstoß, der alle erforderlichen Bedingungen erfüllt, heißt <strong>wirksamer Zusammenstoß</strong>.</p>
+      <h3>Aktivierungsenergie und Mindestenergie</h3>
+      <p>Die Teilchen benötigen eine bestimmte Energie, damit vorhandene Bindungen ausreichend gelockert oder gebrochen und neue Bindungen ausgebildet werden können. Diese Energiebarriere hängt mit der <strong>Aktivierungsenergie</strong> zusammen.</p>
+      <div class="formula reaction">viele Zusammenstöße ≠ viele Reaktionen<br>entscheidend: wirksame Zusammenstöße</div>
+      <div class="trap"><strong>Typischer Fehler:</strong> Eine höhere Temperatur „macht“ die Reaktion nicht einfach energetisch günstiger. Sie erhöht vor allem den Anteil der Teilchen, die genügend kinetische Energie für wirksame Zusammenstöße besitzen.</div>
+      <h3>Modellgrenzen</h3>
+      <p>Die Stoßtheorie ist ein Modell. Sie erklärt viele Grundzusammenhänge sehr gut, vereinfacht aber komplexe Reaktionswege, Zwischenstufen und die genaue räumliche Struktur größerer Moleküle.</p>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Erklären Sie, warum nicht jeder Zusammenstoß zwischen Eduktteilchen zu einer chemischen Reaktion führt.
+        <details><summary>Lösungshinweis anzeigen</summary><p>Ein Zusammenstoß führt nur dann zu einer Reaktion, wenn die Teilchen genügend Energie besitzen und in geeigneter Orientierung zusammentreffen. Fehlt eine dieser Bedingungen, prallen die Teilchen wieder auseinander, ohne zu reagieren.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(1)">Zurück</button><button onclick="showPageByIndex(3)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="einfluss">
+      <h2 class="page-title">4. Einflussfaktoren: Konzentration, Temperatur, Zerteilungsgrad</h2>
+      <p class="lead">Die Reaktionsgeschwindigkeit lässt sich durch Reaktionsbedingungen beeinflussen. Im Grundkurs sind vor allem Konzentration, Temperatur und Zerteilungsgrad zentral.</p>
+      <h3>Überblick</h3>
+      <table>
+        <thead><tr><th>Einflussfaktor</th><th>Beobachtung auf Stoffebene</th><th>Erklärung auf Teilchenebene</th></tr></thead>
+        <tbody>
+          <tr><td>Konzentration</td><td>Bei höherer Eduktkonzentration läuft eine Reaktion häufig schneller.</td><td>In einem bestimmten Volumen befinden sich mehr Eduktteilchen. Dadurch kommt es pro Zeit häufiger zu Zusammenstößen.</td></tr>
+          <tr><td>Temperatur</td><td>Bei höherer Temperatur laufen viele Reaktionen schneller.</td><td>Die Teilchen bewegen sich schneller. Außerdem besitzt ein größerer Anteil der Teilchen die nötige Mindestenergie.</td></tr>
+          <tr><td>Zerteilungsgrad</td><td>Fein verteilte Feststoffe reagieren häufig schneller als kompakte Stücke.</td><td>Eine größere Oberfläche ermöglicht mehr Berührungs- und Reaktionsstellen.</td></tr>
+        </tbody>
+      </table>
+      <h3>Konzentration</h3>
+      <p>Erhöht man die Konzentration eines gelösten Eduktes, steigt in vielen Fällen die Wahrscheinlichkeit für Zusammenstöße mit anderen Eduktteilchen. Die Reaktion kann dadurch schneller ablaufen. Bei komplexeren Reaktionen ist der Zusammenhang nicht immer einfach proportional.</p>
+      <h3>Temperatur</h3>
+      <p>Eine höhere Temperatur bedeutet eine höhere mittlere kinetische Energie der Teilchen. Noch wichtiger ist: Der Anteil der Teilchen, die die Mindestenergie erreichen oder überschreiten, nimmt stark zu.</p>
+      <h3>Zerteilungsgrad</h3>
+      <p>Bei Reaktionen mit Feststoffen findet die Reaktion oft an der Oberfläche statt. Ein Pulver besitzt im Vergleich zu einem kompakten Stück eine viel größere Gesamtoberfläche. Dadurch können mehr Teilchen gleichzeitig reagieren.</p>
+      <div class="check"><strong>Beispiel:</strong> Ein Holzscheit brennt schlechter an als feine Holzspäne. Bei den Spänen ist die Oberfläche im Verhältnis zur Masse viel größer, Sauerstoff kann besser angreifen, und mehr Reaktionsorte stehen gleichzeitig zur Verfügung.</div>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Erklären Sie auf Teilchenebene, warum Magnesiumband in Säure schneller reagiert, wenn die Säure konzentrierter ist.
+        <details><summary>Lösungshinweis anzeigen</summary><p>In konzentrierterer Säure befinden sich mehr reagierende Teilchen pro Volumen. Dadurch treffen Teilchen der Säure häufiger auf die Oberfläche des Magnesiums. Die Zahl wirksamer Zusammenstöße pro Zeit steigt.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(2)">Zurück</button><button onclick="showPageByIndex(4)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="rgt">
+      <h2 class="page-title">5. RGT-Regel und Grenzen</h2>
+      <p class="lead">Die RGT-Regel ist eine Faustregel zur Temperaturabhängigkeit vieler Reaktionsgeschwindigkeiten. RGT steht für Reaktionsgeschwindigkeit-Temperatur-Regel.</p>
+      <h3>Aussage der RGT-Regel</h3>
+      <div class="formula reaction">Erhöhung der Temperatur um 10 °C → Reaktionsgeschwindigkeit oft etwa 2- bis 4-mal so groß</div>
+      <p>Die Regel hilft bei einer ersten Abschätzung. Sie ist besonders nützlich, wenn man verstehen möchte, warum Lebensmittel im Kühlschrank langsamer verderben oder warum viele Reaktionen beim Erwärmen deutlich schneller ablaufen.</p>
+      <h3>Teilchenebene</h3>
+      <p>Bei höherer Temperatur bewegen sich Teilchen im Mittel schneller. Entscheidend ist aber nicht nur die größere Stoßhäufigkeit, sondern der stark wachsende Anteil an Teilchen, die genügend Energie für einen wirksamen Zusammenstoß besitzen.</p>
+      <div class="svgbox" aria-label="Schematische Energieverteilung">
+        <svg width="720" height="260" viewBox="0 0 720 260" role="img" aria-labelledby="rgtTitel rgtDesc">
+          <title id="rgtTitel">Schematische Energieverteilung bei niedrigerer und höherer Temperatur</title>
+          <desc id="rgtDesc">Zwei Kurven zeigen, dass bei höherer Temperatur ein größerer Anteil der Teilchen oberhalb der Mindestenergie liegt.</desc>
+          <line x1="70" y1="215" x2="650" y2="215" stroke="#1d2433" stroke-width="2"/>
+          <line x1="70" y1="215" x2="70" y2="35" stroke="#1d2433" stroke-width="2"/>
+          <text x="655" y="219" font-size="14" fill="#1d2433">Energie</text>
+          <text x="22" y="45" font-size="14" fill="#1d2433">Teilchenzahl</text>
+          <path d="M80 210 C160 170, 210 70, 295 100 C370 125, 430 190, 610 210" fill="none" stroke="#263f7d" stroke-width="4"/>
+          <path d="M80 212 C180 200, 250 155, 355 145 C455 136, 520 185, 625 208" fill="none" stroke="#7c3aed" stroke-width="4" stroke-dasharray="8 7"/>
+          <line x1="500" y1="215" x2="500" y2="45" stroke="#b42318" stroke-width="3"/>
+          <text x="508" y="62" font-size="14" fill="#b42318">Mindestenergie</text>
+          <text x="170" y="70" font-size="14" fill="#263f7d">niedrigere T</text>
+          <text x="375" y="135" font-size="14" fill="#7c3aed">höhere T</text>
+          <text x="510" y="195" font-size="13" fill="#344054">größerer Anteil</text>
+          <text x="510" y="211" font-size="13" fill="#344054">reagiert</text>
+        </svg>
+      </div>
+      <h3>Grenzen der Regel</h3>
+      <ul>
+        <li>Sie gilt nicht für jede Reaktion exakt.</li>
+        <li>Bei sehr hohen Temperaturen können Stoffe zerfallen oder Nebenreaktionen auftreten.</li>
+        <li>Bei Enzymen kann zu starkes Erwärmen zur Denaturierung führen; die Aktivität nimmt dann ab.</li>
+        <li>Sie ersetzt keine Messwerte und keine genaue kinetische Auswertung.</li>
+      </ul>
+      <div class="task">
+        <strong>Übung:</strong> Eine Reaktion ist bei 20 °C gut beobachtbar. Bei 30 °C läuft sie ungefähr dreimal so schnell. Wie viel schneller könnte sie bei 40 °C ungefähr sein, wenn dieselbe Faustregel weiter gilt?
+        <details><summary>Lösung anzeigen</summary><p>Von 20 °C auf 30 °C: Faktor 3. Von 30 °C auf 40 °C nochmals ungefähr Faktor 3. Insgesamt also etwa Faktor 9 gegenüber 20 °C. Das ist eine Abschätzung, keine exakte Gesetzmäßigkeit.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(3)">Zurück</button><button onclick="showPageByIndex(5)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="diagramme">
+      <h2 class="page-title">6. Zeitlicher Verlauf und Diagramme</h2>
+      <p class="lead">Bei vielen Reaktionen verändert sich die Geschwindigkeit während des Ablaufs. Diagramme helfen, diesen Verlauf auszuwerten und zwischen Stoffebene und Teilchenebene zu unterscheiden.</p>
+      <h3>Konzentrations-Zeit-Diagramm</h3>
+      <p>In einem Konzentrations-Zeit-Diagramm kann man verfolgen, wie Edukt- und Produktkonzentrationen mit der Zeit zu- oder abnehmen.</p>
+      <div class="svgbox" aria-label="Konzentrations-Zeit-Diagramm">
+        <svg width="720" height="300" viewBox="0 0 720 300" role="img" aria-labelledby="diagTitel diagDesc">
+          <title id="diagTitel">Schematisches Konzentrations-Zeit-Diagramm</title>
+          <desc id="diagDesc">Die Eduktkonzentration nimmt ab, die Produktkonzentration nimmt zu; beide Kurven flachen mit der Zeit ab.</desc>
+          <line x1="75" y1="245" x2="650" y2="245" stroke="#1d2433" stroke-width="2"/>
+          <line x1="75" y1="245" x2="75" y2="40" stroke="#1d2433" stroke-width="2"/>
+          <text x="655" y="249" font-size="14" fill="#1d2433">Zeit</text>
+          <text x="20" y="48" font-size="14" fill="#1d2433">c</text>
+          <path d="M85 60 C160 95, 245 145, 340 185 C440 225, 540 238, 635 241" fill="none" stroke="#b42318" stroke-width="4"/>
+          <path d="M85 240 C155 205, 235 155, 335 115 C440 75, 545 60, 635 56" fill="none" stroke="#22863a" stroke-width="4"/>
+          <text x="110" y="82" font-size="14" fill="#b42318">Edukt</text>
+          <text x="560" y="73" font-size="14" fill="#22863a">Produkt</text>
+          <line x1="115" y1="70" x2="205" y2="115" stroke="#344054" stroke-width="2" stroke-dasharray="5 5"/>
+          <text x="215" y="118" font-size="13" fill="#344054">anfangs steiler</text>
+          <text x="214" y="135" font-size="13" fill="#344054">→ größere Geschwindigkeit</text>
+        </svg>
+      </div>
+      <h3>Warum wird eine Reaktion oft langsamer?</h3>
+      <p>Im Verlauf einer Reaktion nimmt die Konzentration der Edukte meist ab. Dadurch stoßen Eduktteilchen seltener zusammen. Die Zahl wirksamer Zusammenstöße pro Zeit sinkt, und die Reaktion verläuft langsamer.</p>
+      <h3>Auswertung von Diagrammen</h3>
+      <table>
+        <thead><tr><th>Diagrammmerkmal</th><th>Deutung</th></tr></thead>
+        <tbody>
+          <tr><td>Steile Kurve</td><td>Große Konzentrationsänderung pro Zeit, also hohe Geschwindigkeit.</td></tr>
+          <tr><td>Flache Kurve</td><td>Kleine Konzentrationsänderung pro Zeit, also geringe Geschwindigkeit.</td></tr>
+          <tr><td>Eduktkurve fällt</td><td>Edukt wird verbraucht.</td></tr>
+          <tr><td>Produktkurve steigt</td><td>Produkt entsteht.</td></tr>
+        </tbody>
+      </table>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Warum ist die Reaktionsgeschwindigkeit zu Beginn vieler Reaktionen besonders groß?
+        <details><summary>Lösungshinweis anzeigen</summary><p>Zu Beginn sind die Eduktkonzentrationen meist am höchsten. Dadurch kommt es häufiger zu Zusammenstößen zwischen Eduktteilchen. Wenn genügend davon wirksam sind, ist die Geschwindigkeit am Anfang besonders groß.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(4)">Zurück</button><button onclick="showPageByIndex(6)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="aktivierung">
+      <h2 class="page-title">7. Aktivierungsenergie und Reaktionsweg</h2>
+      <p class="lead">Auch eine exotherme Reaktion startet oft nicht von selbst. Häufig muss zunächst eine Energiebarriere überwunden werden: die Aktivierungsenergie.</p>
+      <h3>Reaktionsweg und Übergangszustand</h3>
+      <p>Während einer Reaktion werden Bindungen gelockert, gebrochen und neu gebildet. Auf dem Reaktionsweg entsteht ein sehr energiereicher Zustand, der <strong>Übergangszustand</strong>. Die Energie, die bis zu diesem Zustand aufgebracht werden muss, nennt man <strong>Aktivierungsenergie</strong>.</p>
+      <div class="svgbox" aria-label="Energiediagramm einer exothermen Reaktion">
+        <svg width="720" height="320" viewBox="0 0 720 320" role="img" aria-labelledby="edTitel edDesc">
+          <title id="edTitel">Energiediagramm einer exothermen Reaktion</title>
+          <desc id="edDesc">Edukte liegen energetisch höher als Produkte. Der Reaktionsweg führt über einen energiereichen Übergangszustand.</desc>
+          <line x1="80" y1="260" x2="650" y2="260" stroke="#1d2433" stroke-width="2"/>
+          <line x1="80" y1="260" x2="80" y2="40" stroke="#1d2433" stroke-width="2"/>
+          <text x="655" y="264" font-size="14" fill="#1d2433">Reaktionsweg</text>
+          <text x="23" y="50" font-size="14" fill="#1d2433">Energie</text>
+          <line x1="110" y1="190" x2="210" y2="190" stroke="#263f7d" stroke-width="5"/>
+          <text x="118" y="184" font-size="14" fill="#263f7d">Edukte</text>
+          <path d="M210 190 C280 185, 315 65, 385 70 C455 75, 485 205, 550 220" fill="none" stroke="#263f7d" stroke-width="4"/>
+          <line x1="550" y1="220" x2="635" y2="220" stroke="#263f7d" stroke-width="5"/>
+          <text x="560" y="214" font-size="14" fill="#263f7d">Produkte</text>
+          <line x1="165" y1="190" x2="165" y2="70" stroke="#b42318" stroke-width="3" stroke-dasharray="6 5"/>
+          <line x1="165" y1="70" x2="382" y2="70" stroke="#b42318" stroke-width="3" stroke-dasharray="6 5"/>
+          <text x="185" y="93" font-size="14" fill="#b42318">Aktivierungsenergie</text>
+          <line x1="520" y1="190" x2="520" y2="220" stroke="#22863a" stroke-width="3"/>
+          <text x="535" y="207" font-size="14" fill="#22863a">ΔH &lt; 0</text>
+          <text x="345" y="58" font-size="14" fill="#344054">Übergangszustand</text>
+        </svg>
+      </div>
+      <h3>Aktivierungsenergie ist nicht Reaktionsenthalpie</h3>
+      <p>Die Aktivierungsenergie beschreibt die Energiebarriere auf dem Weg zur Reaktion. Die Reaktionsenthalpie beschreibt dagegen den energetischen Unterschied zwischen Edukten und Produkten.</p>
+      <div class="trap"><strong>Typischer Fehler:</strong> Eine exotherme Reaktion hat nicht automatisch eine kleine Aktivierungsenergie. Auch stark exotherme Reaktionen können ohne Zündung oder Katalysator sehr langsam ablaufen.</div>
+      <h3>Beispiel: Verbrennung</h3>
+      <p>Die Verbrennung von Holz ist exotherm. Trotzdem brennt ein Holzstück bei Raumtemperatur nicht einfach spontan los. Erst wenn die Aktivierungsenergie lokal erreicht wird, kann die Reaktion starten und sich durch die frei werdende Energie selbst erhalten.</p>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Erklären Sie den Unterschied zwischen Aktivierungsenergie und Reaktionsenthalpie in zwei Sätzen.
+        <details><summary>Lösungshinweis anzeigen</summary><p>Die Aktivierungsenergie ist die Energie, die nötig ist, um den energiereichen Übergangszustand zu erreichen. Die Reaktionsenthalpie beschreibt, ob die Produkte energetisch höher oder niedriger liegen als die Edukte und ob insgesamt Energie aufgenommen oder abgegeben wird.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(5)">Zurück</button><button onclick="showPageByIndex(7)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="katalysator">
+      <h2 class="page-title">8. Katalysatoren: Wirkung und Eigenschaften</h2>
+      <p class="lead">Ein Katalysator ist ein Stoff, der eine Reaktion beschleunigt, indem er einen anderen Reaktionsweg ermöglicht. Dabei wird er am Ende der Reaktion wieder zurückgebildet.</p>
+      <h3>Eigenschaften eines Katalysators</h3>
+      <ul>
+        <li>Er beschleunigt eine Reaktion, indem er die Aktivierungsenergie senkt.</li>
+        <li>Er nimmt an der Reaktion teil, wird aber am Ende wieder zurückgebildet.</li>
+        <li>Er verändert den Reaktionsweg und den Übergangszustand.</li>
+        <li>Er verändert nicht die Stoffmengenbilanz der Gesamtreaktion.</li>
+        <li>Er verändert nicht die Reaktionsenthalpie ΔH.</li>
+      </ul>
+      <div class="svgbox" aria-label="Energiediagramm katalysiert und nicht katalysiert">
+        <svg width="720" height="330" viewBox="0 0 720 330" role="img" aria-labelledby="katTitel katDesc">
+          <title id="katTitel">Energiediagramm einer katalysierten und nicht katalysierten Reaktion</title>
+          <desc id="katDesc">Die katalysierte Reaktion besitzt einen niedrigeren Energieberg, Edukte und Produkte bleiben gleich.</desc>
+          <line x1="80" y1="270" x2="650" y2="270" stroke="#1d2433" stroke-width="2"/>
+          <line x1="80" y1="270" x2="80" y2="45" stroke="#1d2433" stroke-width="2"/>
+          <text x="655" y="274" font-size="14" fill="#1d2433">Reaktionsweg</text>
+          <text x="24" y="54" font-size="14" fill="#1d2433">Energie</text>
+          <line x1="110" y1="210" x2="200" y2="210" stroke="#1d2433" stroke-width="5"/>
+          <line x1="560" y1="235" x2="640" y2="235" stroke="#1d2433" stroke-width="5"/>
+          <text x="122" y="203" font-size="14" fill="#1d2433">Edukte</text>
+          <text x="568" y="228" font-size="14" fill="#1d2433">Produkte</text>
+          <path d="M200 210 C280 205, 315 60, 385 65 C455 70, 490 220, 560 235" fill="none" stroke="#b42318" stroke-width="4"/>
+          <path d="M200 210 C275 205, 310 135, 380 135 C450 135, 490 222, 560 235" fill="none" stroke="#263f7d" stroke-width="4" stroke-dasharray="8 7"/>
+          <text x="405" y="72" font-size="14" fill="#b42318">ohne Katalysator</text>
+          <text x="395" y="148" font-size="14" fill="#263f7d">mit Katalysator</text>
+          <line x1="150" y1="210" x2="150" y2="65" stroke="#b42318" stroke-width="2" stroke-dasharray="5 5"/>
+          <line x1="175" y1="210" x2="175" y2="135" stroke="#263f7d" stroke-width="2" stroke-dasharray="5 5"/>
+          <text x="90" y="123" font-size="13" fill="#b42318">größere Eₐ</text>
+          <text x="185" y="178" font-size="13" fill="#263f7d">kleinere Eₐ</text>
+        </svg>
+      </div>
+      <h3>Was ein Katalysator nicht tut</h3>
+      <div class="trap">
+        <strong>Abgrenzung:</strong> Ein Katalysator „liefert“ der Reaktion nicht einfach Energie. Er macht einen günstigeren Weg möglich. Außerdem wird er nicht dauerhaft verbraucht und verschiebt in einem Gleichgewicht nicht einseitig nur die Produktbildung; er beschleunigt Hin- und Rückreaktion.
+      </div>
+      <h3>Inhibitoren</h3>
+      <p>Ein <strong>Inhibitor</strong> hemmt eine Reaktion oder verringert die Aktivität eines Katalysators. Bei Enzymen können Inhibitoren zum Beispiel das aktive Zentrum blockieren oder die räumliche Struktur so verändern, dass das Substrat schlechter umgesetzt wird.</p>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Formulieren Sie eine kurze Erklärung, warum ein Katalysator die Reaktionsgeschwindigkeit erhöht, obwohl Edukte und Produkte energetisch gleich bleiben.
+        <details><summary>Lösungshinweis anzeigen</summary><p>Der Katalysator eröffnet einen anderen Reaktionsweg mit niedrigerer Aktivierungsenergie. Dadurch besitzt bei gleicher Temperatur ein größerer Anteil der Teilchen genügend Energie, um den Übergangszustand zu erreichen. Edukte und Produkte bleiben gleich, daher bleibt auch die Reaktionsenthalpie gleich.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(6)">Zurück</button><button onclick="showPageByIndex(8)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="typen">
+      <h2 class="page-title">9. Homogene, heterogene und Biokatalyse</h2>
+      <p class="lead">Katalysatoren können je nach Aggregatzustand und Reaktionsort unterschiedlich eingeteilt werden. Besonders wichtig sind homogene Katalyse, heterogene Katalyse und Biokatalyse durch Enzyme.</p>
+      <h3>Drei Katalyseformen im Überblick</h3>
+      <table>
+        <thead><tr><th>Katalyseform</th><th>Kennzeichen</th><th>Beispielhafte Einordnung</th></tr></thead>
+        <tbody>
+          <tr><td>Homogene Katalyse</td><td>Katalysator und Edukte befinden sich in derselben Phase.</td><td>Alle beteiligten Stoffe liegen zum Beispiel in Lösung vor.</td></tr>
+          <tr><td>Heterogene Katalyse</td><td>Katalysator und Edukte befinden sich in verschiedenen Phasen.</td><td>Gasförmige Edukte reagieren an der Oberfläche eines festen Katalysators.</td></tr>
+          <tr><td>Biokatalyse</td><td>Enzyme beschleunigen Reaktionen in Lebewesen oder technischen Verfahren.</td><td>Katalase zerlegt Wasserstoffperoxid; Enzyme arbeiten substratspezifisch.</td></tr>
+        </tbody>
+      </table>
+      <h3>Modelldarstellung einer Oberflächenkatalyse</h3>
+      <p>Bei der heterogenen Katalyse ist häufig die Oberfläche des Katalysators entscheidend. Der Ablauf lässt sich modellhaft in mehrere Schritte zerlegen:</p>
+      <ol>
+        <li><strong>Diffusion:</strong> Eduktteilchen gelangen zur Katalysatoroberfläche.</li>
+        <li><strong>Adsorption:</strong> Eduktteilchen lagern sich an der Oberfläche an.</li>
+        <li><strong>Aktivierung / Dissoziation:</strong> Bindungen werden geschwächt oder Teilchen werden gespalten.</li>
+        <li><strong>Reaktion:</strong> Neue Bindungen entstehen.</li>
+        <li><strong>Desorption:</strong> Produktteilchen lösen sich von der Oberfläche.</li>
+        <li><strong>Diffusion:</strong> Produktteilchen entfernen sich von der Oberfläche.</li>
+      </ol>
+      <div class="note"><strong>Warum Oberflächen wichtig sind:</strong> Bei einem festen Katalysator hängt die Wirksamkeit stark von der Oberfläche ab. Eine große Oberfläche bietet viele Plätze für Adsorption und Reaktion.</div>
+      <h3>Enzyme als Biokatalysatoren</h3>
+      <p>Enzyme sind Proteine mit katalytischer Wirkung. Sie besitzen meist ein aktives Zentrum, an dem Substrate gebunden und umgesetzt werden. Enzyme sind häufig sehr spezifisch und arbeiten nur unter bestimmten Bedingungen optimal, zum Beispiel in einem bestimmten Temperatur- oder pH-Bereich.</p>
+      <div class="trap"><strong>Typischer Fehler:</strong> Enzyme sind Katalysatoren, aber nicht alle Katalysatoren sind Enzyme. Enzyme sind biologische Makromoleküle, viele technische Katalysatoren sind Metalle, Metalloxide oder andere anorganische Stoffe.</div>
+      <h3>Autokatalyse</h3>
+      <p>Bei einer <strong>Autokatalyse</strong> wirkt ein Produkt der Reaktion selbst als Katalysator. Dadurch kann die Reaktion zunächst langsam starten und später deutlich schneller werden, weil immer mehr katalytisch wirkender Stoff entsteht.</p>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Ordnen Sie zu: Ein fester Katalysator beschleunigt eine Reaktion zwischen gasförmigen Stoffen. Handelt es sich um homogene oder heterogene Katalyse? Begründen Sie.
+        <details><summary>Lösung anzeigen</summary><p>Es handelt sich um heterogene Katalyse, weil Katalysator und Edukte in verschiedenen Phasen vorliegen: Der Katalysator ist fest, die Edukte sind gasförmig.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(7)">Zurück</button><button onclick="showPageByIndex(9)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="radikal">
+      <h2 class="page-title">10. Radikalische Substitution</h2>
+      <p class="lead">Im Themenfeld Reaktionsgeschwindigkeit und Katalyse wird die Reaktion von Alkanen mit Halogenen genutzt, um die Abhängigkeit einer Reaktion von Licht oder Wärme und den Zusammenhang mit einem Reaktionsmechanismus zu verstehen.</p>
+      <h3>Beispiel: Chlorierung von Methan</h3>
+      <div class="formula reaction">CH₄ + Cl₂ → CH₃Cl + HCl</div>
+      <p>Diese Reaktion läuft unter geeigneten Bedingungen, zum Beispiel unter Lichteinwirkung, über Radikale. Ein <strong>Radikal</strong> ist ein Teilchen mit einem ungepaarten Elektron und daher häufig sehr reaktiv.</p>
+      <h3>Mechanismus in drei Phasen</h3>
+      <table>
+        <thead><tr><th>Phase</th><th>Beschreibung</th><th>Beispiel</th></tr></thead>
+        <tbody>
+          <tr><td>Kettenstart</td><td>Durch Licht oder Wärme wird ein Halogenmolekül homolytisch gespalten. Es entstehen Radikale.</td><td>Cl₂ → 2 Cl·</td></tr>
+          <tr><td>Kettenfortpflanzung</td><td>Radikale reagieren mit Molekülen und erzeugen neue Radikale. Dadurch setzt sich die Reaktionskette fort.</td><td>Cl· + CH₄ → HCl + CH₃·<br>CH₃· + Cl₂ → CH₃Cl + Cl·</td></tr>
+          <tr><td>Kettenabbruch</td><td>Zwei Radikale verbinden sich. Dadurch verschwindet die radikalische Reaktivität.</td><td>Cl· + Cl· → Cl₂<br>CH₃· + Cl· → CH₃Cl</td></tr>
+        </tbody>
+      </table>
+      <h3>Warum Licht oder Wärme?</h3>
+      <p>Die homolytische Spaltung eines Halogenmoleküls benötigt Energie. Licht kann diese Energie liefern und dadurch Radikale erzeugen. Ohne Radikalbildung startet die Kettenreaktion kaum oder gar nicht.</p>
+      <h3>Homolytische Spaltung</h3>
+      <p>Bei einer homolytischen Spaltung wird ein bindendes Elektronenpaar gleichmäßig aufgeteilt. Jedes Atom erhält ein Elektron aus der Bindung. Dadurch entstehen Radikale.</p>
+      <div class="formula reaction">Cl–Cl → Cl· + ·Cl</div>
+      <div class="note"><strong>Sprachliche Präzision:</strong> Bei der radikalischen Substitution wird ein Wasserstoff-Atom im Alkan durch ein Halogen-Atom ersetzt. Die Reaktion heißt Substitution, weil ein Atom oder eine Atomgruppe ausgetauscht wird.</div>
+      <div class="task">
+        <strong>Selbstkontrolle:</strong> Erklären Sie, warum die Chlorierung von Methan durch Licht gestartet werden kann.
+        <details><summary>Lösungshinweis anzeigen</summary><p>Licht kann die homolytische Spaltung von Cl₂ auslösen. Dabei entstehen Chlor-Radikale. Diese Radikale sind sehr reaktiv und starten die Kettenfortpflanzung, indem sie mit Methan reagieren.</p></details>
+      </div>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(8)">Zurück</button><button onclick="showPageByIndex(10)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="training">
+      <h2 class="page-title">11. Selbsttest und Prüfungstraining</h2>
+      <p class="lead">Nutzen Sie diese Seite zur aktiven Wiederholung. Formulieren Sie Ihre Antworten schriftlich, bevor Sie die Lösungshinweise öffnen.</p>
+      <h3>A. Begriffe präzise erklären</h3>
+      <ol>
+        <li>Erklären Sie den Begriff <strong>Reaktionsgeschwindigkeit</strong>.</li>
+        <li>Erklären Sie, was ein <strong>wirksamer Zusammenstoß</strong> ist.</li>
+        <li>Unterscheiden Sie <strong>Aktivierungsenergie</strong> und <strong>Reaktionsenthalpie</strong>.</li>
+        <li>Erklären Sie die Begriffe <strong>homogene Katalyse</strong> und <strong>heterogene Katalyse</strong>.</li>
+      </ol>
+      <details><summary>Lösungshinweise zu A anzeigen</summary>
+        <ul>
+          <li>Reaktionsgeschwindigkeit: Änderung der Konzentration oder Menge eines Stoffes pro Zeit.</li>
+          <li>Wirksamer Zusammenstoß: Zusammenstoß mit ausreichender Energie und geeigneter Orientierung, der zur Reaktion führt.</li>
+          <li>Aktivierungsenergie: Energiebarriere bis zum Übergangszustand; Reaktionsenthalpie: Energieunterschied zwischen Edukten und Produkten.</li>
+          <li>Homogen: gleiche Phase; heterogen: verschiedene Phasen, häufig Reaktion an einer Oberfläche.</li>
+        </ul>
+      </details>
+      <h3>B. Diagrammaufgabe</h3>
+      <p>Eine Eduktkonzentration sinkt in den ersten 30 s von 0,60 mol/L auf 0,36 mol/L. Zwischen 90 s und 120 s sinkt sie nur noch von 0,18 mol/L auf 0,15 mol/L.</p>
+      <ol>
+        <li>Berechnen Sie jeweils die mittlere Abnahmegeschwindigkeit.</li>
+        <li>Erklären Sie, warum die Geschwindigkeit später kleiner ist.</li>
+      </ol>
+      <details><summary>Lösung anzeigen</summary>
+        <p>Erstes Intervall: Δc = 0,24 mol/L in 30 s, also v = 0,0080 mol · L⁻¹ · s⁻¹. Späteres Intervall: Δc = 0,03 mol/L in 30 s, also v = 0,0010 mol · L⁻¹ · s⁻¹. Die Reaktion wird langsamer, weil weniger Eduktteilchen vorhanden sind und wirksame Zusammenstöße seltener werden.</p>
+      </details>
+      <h3>C. Begründungsaufgabe</h3>
+      <p>Ein Pulver reagiert mit einer Säure deutlich schneller als ein gleich schweres kompaktes Stück desselben Stoffes.</p>
+      <details><summary>Musterantwort anzeigen</summary><p>Das Pulver besitzt eine größere Oberfläche als das kompakte Stück. Dadurch können mehr Säureteilchen gleichzeitig mit der Feststoffoberfläche zusammenstoßen. Die Zahl wirksamer Zusammenstöße pro Zeit ist größer, daher läuft die Reaktion schneller ab.</p></details>
+      <h3>D. Katalyseaufgabe</h3>
+      <p>In einem Energiediagramm sollen eine katalysierte und eine nicht katalysierte Reaktion dargestellt werden.</p>
+      <ul>
+        <li>Was bleibt in beiden Kurven gleich?</li>
+        <li>Was unterscheidet sich?</li>
+      </ul>
+      <details><summary>Lösungshinweis anzeigen</summary><p>Gleich bleiben Edukte, Produkte und Reaktionsenthalpie. Unterschiedlich ist der Reaktionsweg: Die katalysierte Reaktion verläuft über einen niedrigeren Energieberg, besitzt also eine kleinere Aktivierungsenergie.</p></details>
+      <h3>E. Operatorentraining</h3>
+      <table>
+        <thead><tr><th>Operator</th><th>Was Sie tun sollen</th><th>Beispiel zum Themenfeld</th></tr></thead>
+        <tbody>
+          <tr><td>beschreiben</td><td>Beobachtungen oder Sachverhalte geordnet darstellen</td><td>Beschreiben Sie den Verlauf einer Konzentrations-Zeit-Kurve.</td></tr>
+          <tr><td>erklären</td><td>Ursache-Wirkungs-Zusammenhänge fachlich begründen</td><td>Erklären Sie die Temperaturabhängigkeit mithilfe der Stoßtheorie.</td></tr>
+          <tr><td>auswerten</td><td>Daten oder Diagramme erschließen und fachlich deuten</td><td>Werten Sie Messwerte zur Gasentwicklung pro Zeit aus.</td></tr>
+          <tr><td>beurteilen</td><td>Zu einer begründeten Einschätzung kommen</td><td>Beurteilen Sie, ob eine Modellvorstellung zur Oberflächenkatalyse die Beobachtung ausreichend erklärt.</td></tr>
+        </tbody>
+      </table>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(9)">Zurück</button><button onclick="showPageByIndex(11)">Weiter</button></div>
+    </section>
+
+    <section class="page" id="checkliste">
+      <h2 class="page-title">12. Abschluss-Checkliste</h2>
+      <p class="lead">Haken Sie ab, was Sie sicher beherrschen. Offene Punkte sind gute Ansatzpunkte für die weitere Wiederholung.</p>
+      <div class="selfcheck">
+        <h3>Grundbegriffe</h3>
+        <label><input type="checkbox"> Ich kann Reaktionsgeschwindigkeit als Änderung einer Stoffmenge oder Konzentration pro Zeit beschreiben.</label>
+        <label><input type="checkbox"> Ich kann die mittlere Reaktionsgeschwindigkeit mit v = Δc / Δt berechnen und deuten.</label>
+        <label><input type="checkbox"> Ich kann zwischen Stoffebene und Teilchenebene unterscheiden.</label>
+        <h3>Stoßtheorie und Einflussfaktoren</h3>
+        <label><input type="checkbox"> Ich kann erklären, was ein wirksamer Zusammenstoß ist.</label>
+        <label><input type="checkbox"> Ich kann die Wirkung von Temperatur, Konzentration und Zerteilungsgrad auf Teilchenebene begründen.</label>
+        <label><input type="checkbox"> Ich kann die RGT-Regel anwenden und ihre Grenzen benennen.</label>
+        <label><input type="checkbox"> Ich kann Konzentrations-Zeit-Diagramme qualitativ auswerten.</label>
+        <h3>Aktivierungsenergie und Katalyse</h3>
+        <label><input type="checkbox"> Ich kann Aktivierungsenergie, Mindestenergie und Übergangszustand fachlich korrekt verwenden.</label>
+        <label><input type="checkbox"> Ich kann ein Energiediagramm einer katalysierten und einer nicht katalysierten Reaktion erklären.</label>
+        <label><input type="checkbox"> Ich kann erklären, warum ein Katalysator die Aktivierungsenergie senkt, aber ΔH nicht verändert.</label>
+        <label><input type="checkbox"> Ich kann homogene, heterogene und enzymatische Katalyse unterscheiden.</label>
+        <label><input type="checkbox"> Ich kann die Schritte einer Oberflächenkatalyse modellhaft beschreiben: Diffusion, Adsorption, Reaktion, Desorption.</label>
+        <h3>Radikalische Substitution</h3>
+        <label><input type="checkbox"> Ich kann Radikale als Teilchen mit ungepaartem Elektron beschreiben.</label>
+        <label><input type="checkbox"> Ich kann die homolytische Spaltung eines Halogenmoleküls erklären.</label>
+        <label><input type="checkbox"> Ich kann Kettenstart, Kettenfortpflanzung und Kettenabbruch der radikalischen Substitution beschreiben.</label>
+      </div>
+      <div class="check"><strong>Abschlussimpuls:</strong> Wählen Sie einen der Einflussfaktoren aus und erklären Sie ihn einmal vollständig auf Stoffebene und einmal auf Teilchenebene. Wenn Ihnen diese Trennung gelingt, sind Sie für materialgebundene Aufgaben gut vorbereitet.</div>
+      <h3>Fachbegriffe, die Sie aktiv verwenden können sollten</h3>
+      <ul class="twocol">
+        <li>Reaktionsgeschwindigkeit</li>
+        <li>mittlere Reaktionsgeschwindigkeit</li>
+        <li>Stoßtheorie</li>
+        <li>wirksamer Zusammenstoß</li>
+        <li>Mindestenergie</li>
+        <li>kinetische Energie</li>
+        <li>Aktivierungsenergie</li>
+        <li>Übergangszustand</li>
+        <li>RGT-Regel</li>
+        <li>Katalysator</li>
+        <li>Inhibitor</li>
+        <li>homogene Katalyse</li>
+        <li>heterogene Katalyse</li>
+        <li>Biokatalysator / Enzym</li>
+        <li>Autokatalyse</li>
+        <li>Diffusion</li>
+        <li>Adsorption</li>
+        <li>Desorption</li>
+        <li>Radikal</li>
+        <li>homolytische Spaltung</li>
+        <li>Kettenstart</li>
+        <li>Kettenfortpflanzung</li>
+        <li>Kettenabbruch</li>
+      </ul>
+      <p class="see-also">Siehe auch ...</p>
+      <div class="pager"><button onclick="showPageByIndex(10)">Zurück</button><button disabled>Weiter</button></div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const pages = Array.from(document.querySelectorAll('.page'));
+  const navlinks = Array.from(document.querySelectorAll('.navlink'));
+  const progressText = document.getElementById('progressText');
+  const bar = document.getElementById('bar');
+
+  function showPageByIndex(index){
+    if(index < 0 || index >= pages.length) return;
+    const id = pages[index].id;
+    showPage(id);
+  }
+
+  function showPage(id){
+    const index = pages.findIndex(p => p.id === id);
+    if(index === -1) return;
+    pages.forEach(p => p.classList.remove('active'));
+    navlinks.forEach(n => n.classList.remove('active'));
+    pages[index].classList.add('active');
+    navlinks[index].classList.add('active');
+    progressText.textContent = `${index + 1} / ${pages.length}`;
+    bar.style.width = `${((index + 1) / pages.length) * 100}%`;
+    window.scrollTo({top:0,behavior:'smooth'});
+    history.replaceState(null,'','#' + id);
+  }
+
+  navlinks.forEach(link => {
+    link.addEventListener('click', () => showPage(link.dataset.target));
+  });
+
+  window.addEventListener('load', () => {
+    const hash = window.location.hash.replace('#','');
+    if(hash && document.getElementById(hash)) showPage(hash);
+    else showPageByIndex(0);
+  });
+</script>
+</body>
+</html>
